@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataController name="Wo" conflictDetection="overwriteChanges" label="Wo" handler="Planned.Rules.WoBusinessRules" xmlns="urn:schemas-codeontime-com:data-aquarium">
+  <commands>
+    <command id="command1" type="Text">
+      <text><![CDATA[
+select
+	"WO"."woId" "WoID"
+	,"WO"."unitId" "UnitID"
+	,"unit"."unitNumber" "UnitWoUnitnumber"
+	,"WO"."buildingId" "BuildingID"
+	,"building"."buildingNumber" "BuildingWoBuildingnumber"
+	,"building"."buildingName" "BuildingBuildingname"
+	,"WO"."residentId" "ResidentID"
+	,"resident"."residentFirstName" "ResidentResidentfirstname"
+	,"resident"."residentLastName" "ResidentResidentlastname"
+	,"WO"."status" "Status"
+	,"WO"."priority" "Priority"
+	,"WO"."comment" "Comment"
+	,"WO"."contactName" "ContactName"
+	,"WO"."contactPhone" "ContactPhone"
+	,"WO"."reportedBy" "ReportedBy"
+	,"WO"."reportedThru" "ReportedThru"
+	,"WO"."completedDate" "CompletedDate"
+	,"WO"."createdBy" "CreatedBy"
+	,"WO"."createdDate" "CreatedDate"
+	,"WO"."assignedTo" "AssignedTo"
+	,"WO"."CompletionSignature" "CompletionSignature"
+	,"WO"."message" "Message"
+	,"WO"."problemDescription" "ProblemDescription"
+	,"WO"."contactEmail" "ContactEmail"
+	,"WO"."updateBy" "UpdateBy"
+	,"WO"."updateDate" "UpdateDate"
+	,"WO"."recordingurl" "Recordingurl"
+from "dbo"."WO" "WO"
+	left join "dbo"."unit" "unit" on "WO"."unitId" = "unit"."unitId"
+	left join "dbo"."building" "building" on "WO"."buildingId" = "building"."buildingId"
+	left join "dbo"."resident" "resident" on "WO"."residentId" = "resident"."residentId"
+]]></text>
+    </command>
+    <command id="woIdIdentityCommand" type="Text" event="Inserted">
+      <text><![CDATA[select @@identity]]></text>
+      <output>
+        <fieldOutput fieldName="woId" />
+      </output>
+    </command>
+  </commands>
+  <fields>
+    <field name="WoID" type="Int32" allowNulls="false" isPrimaryKey="true" label="Ticket No" readOnly="true" />
+    <field name="ResidentID" type="Int32" label="resident Id" showInSummary="true" contextFields="UnitID=UnitID">
+      <items style="Lookup" dataController="Resident" dataValueField="ResidentID" dataTextField="ResidentFullName" copy="ContactName = ResidentFullName&#xD;&#xA;ContactPhone = ResidentPhoneNumber&#xD;&#xA;ContactEmail = ResidentEmail&#xD;&#xA;" />
+    </field>
+    <field name="UnitID" type="Int32" label="unit Id" showInSummary="true" contextFields="BuildingID = BuildingID">
+      <items style="Lookup" dataController="Unit" dataValueField="UnitID" dataTextField="UnitNumber" copy="ResidentID = null&#xD;&#xA;residentFullName = null" dataView="grid1" />
+    </field>
+    <field name="BuildingID" type="Int32" label="building Id" showInSummary="true">
+      <items style="Lookup" dataController="Building" dataValueField="BuildingID" dataTextField="BuildingName" copy="UnitID = null&#xD;&#xA;ResidentID = null" />
+    </field>
+    <field name="UnitWoUnitnumber" type="String" readOnly="true" label="Unit" length="25" writeRoles="Administrators,Silvershore" />
+    <field name="BuildingWoBuildingnumber" type="String" readOnly="true" label="Building" length="5" />
+    <field name="BuildingBuildingname" type="String" readOnly="true" label="Building" length="30" />
+    <field name="ResidentResidentfirstname" type="String" readOnly="true" label="Resident Name" length="50" />
+    <field name="ResidentResidentlastname" type="String" readOnly="true" label="Resident Residentlastname" length="50" />
+    <field name="Status" type="String" label="Status" length="1" showInSummary="true">
+      <items style="DropDownList">
+        <item value="N" text="New" />
+        <item value="P" text="Pending" />
+        <item value="I" text="In Progress" />
+        <item value="W" text="Waiting for Resident" />
+        <item value="H" text="On Hold" />
+        <item value="R" text="Resolved" />
+        <item value="C" text="Closed" />
+      </items>
+    </field>
+    <field name="Priority" type="Int32" label="Priority" showInSummary="true" allowNulls="false">
+      <items style="ListBox">
+        <item value="10" text="Very Low" />
+        <item value="20" text="Low" />
+        <item value="30" text="Normal" />
+        <item value="40" text="High" />
+        <item value="50" text="Very High" />
+        <item value="60" text="Urgent" />
+      </items>
+    </field>
+    <field name="Comment" type="String" allowQBE="false" allowSorting="false" label="Summary Comment" />
+    <field name="ContactName" type="String" label="Ticket Contact Name" length="50" />
+    <field name="ContactPhone" type="String" label="Ticket Contact Phone" length="50" />
+    <field name="ReportedBy" type="String" label="Reported By" length="30" writeRoles="Administrators,Silvershore">
+      <items style="ListBox">
+        <item value="Field" text="Field" />
+        <item value="OfficeStaff" text="Office Staff" />
+        <item value="Resident" text="Resident" />
+      </items>
+    </field>
+    <field name="ReportedThru" type="String" label="Reported Thru" length="30" allowNulls="false" writeRoles="Administrators,Silvershore">
+      <items style="ListBox">
+        <item value="Office" text="Office Phone" />
+        <item value="CallCenter" text="Call Center" />
+      </items>
+    </field>
+    <field name="CompletedDate" type="DateTime" dataFormatString="g" label="Completed Date" />
+    <field name="CreatedBy" type="String" label="Created By" length="50">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="Created Date" />
+    <field name="AssignedTo" type="String" label="Assigned To" length="50" writeRoles="Administrators,Silvershore">
+      <items style="ListBox">
+        <item value="Planned" text="Planned" />
+        <item value="Locksmith" text="Locksmith" />
+        <item value="HVAC" text="HVAC" />
+        <item value="Declined" text="Declined" />
+      </items>
+    </field>
+    <field name="CompletionSignature" type="Byte[]" onDemand="true" sourceFields="woId" onDemandHandler="WOCompletionSignature" onDemandStyle="Signature" allowQBE="false" allowSorting="false" label="Completion Signature" />
+    <field name="workorder" type="String" readOnly="true" label="Workorder" computed="true">
+      <formula>'('+WO.comment+')'</formula>
+    </field>
+    <field name="Message" type="String" allowQBE="false" allowSorting="false" label="Incoming Phone Message" writeRoles="Administrators,Silvershore" />
+    <field name="WoUnit" type="String" readOnly="true" label="Wo Unit" computed="true">
+      <formula>building.buildingName+' - ('+unit.unitNumber+')-('+resident.residentLastName+', '+resident.residentFirstName+')'</formula>
+    </field>
+    <field name="ProblemDescription" type="String" allowQBE="false" allowSorting="false" label="Problem Description" />
+    <field name="residentFullName" type="String" readOnly="true" label="Resident Full Name" computed="true">
+      <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+    </field>
+    <field name="ContactEmail" type="String" label="Ticket Contact Email" length="50" />
+    <field name="UpdateBy" type="String" label="Update By" length="50">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+    <field name="assignedToOrg" type="String" readOnly="true" label="Assigned To Org" computed="true">
+      <formula>WO.assignedTo</formula>
+    </field>
+    <field name="Recordingurl" type="String" label="Recordingurl" length="250" />
+    <field name="WoNote" type="DataView" label="Wo Note">
+      <dataView controller="WoNote" view="grid1" filterFields="WoID" />
+    </field>
+    <field name="WoItem" type="DataView" label="Wo Item">
+      <dataView controller="WoItem" view="grid1" filterFields="WoID" />
+    </field>
+    <field name="CurrentUserName" type="String" readOnly="true" label="Current User Name" computed="true" length="40">
+      <formula>@BusinessRules_UserName</formula>
+      <items style="UserNameLookup" />
+    </field>
+  </fields>
+  <views>
+    <view id="grid1" type="Grid" commandId="command1" label="All Tickets">
+      <headerText />
+      <dataFields>
+        <dataField fieldName="WoUnit" hidden="true" />
+        <dataField fieldName="BuildingBuildingname" />
+        <dataField fieldName="UnitWoUnitnumber" columns="25" />
+        <dataField fieldName="WoID" columns="15" />
+        <dataField fieldName="ContactName" columns="30" />
+        <dataField fieldName="ContactPhone" columns="20" />
+        <dataField fieldName="ContactEmail" columns="50" />
+        <dataField fieldName="assignedToOrg" hidden="true" />
+        <dataField fieldName="Recordingurl" hidden="true" />
+        <dataField fieldName="Status" columns="10" />
+        <dataField fieldName="Priority" columns="15" />
+        <dataField fieldName="AssignedTo" columns="20" />
+        <dataField fieldName="residentFullName" hidden="true" />
+        <dataField fieldName="ResidentID" columns="15" aliasFieldName="ResidentResidentfirstname" hidden="true" />
+        <dataField fieldName="UpdateBy" columns="50" hidden="true" />
+        <dataField fieldName="UpdateDate" columns="20" hidden="true" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+        <dataField fieldName="workorder" hidden="true" />
+        <dataField fieldName="ProblemDescription" rows="5" hidden="true" />
+        <dataField fieldName="CurrentUserName" columns="40" hidden="true" />
+      </dataFields>
+      <styles>
+        <expression type="ClientScript" result="Resolved" test="$row.Status =='R'" />
+        <expression type="ClientScript" result="closed" test="$row.Status  == 'C'" />
+        <expression type="ClientScript" result="Hold" test="$row.Status == 'H' " />
+        <expression type="ClientScript" result="inProgress" test="$row.Status == 'I'" />
+        <expression type="ClientScript" result="New" test="$row.Status == 'N'" />
+        <expression type="ClientScript" result="waiting" test="$row.Status == 'W'" />
+      </styles>
+    </view>
+    <view id="editForm1" type="Form" commandId="command1" label="Review Ticket" tags="modal-max-any">
+      <headerText />
+      <categories>
+        <category headerText="Items" id="c2" flow="NewColumn">
+          <dataFields>
+            <dataField fieldName="WoItem" columns="15" />
+          </dataFields>
+        </category>
+        <category headerText="Notes" id="c3" flow="NewColumn">
+          <dataFields>
+            <dataField fieldName="WoNote" columns="15" />
+          </dataFields>
+        </category>
+        <category headerText="Unit/Contact" id="c4" flow="NewRow">
+          <dataFields>
+            <dataField fieldName="BuildingID" aliasFieldName="BuildingBuildingname" />
+            <dataField fieldName="UnitID" aliasFieldName="UnitWoUnitnumber" />
+            <dataField fieldName="ResidentID" aliasFieldName="residentFullName" />
+            <dataField fieldName="ContactName" columns="50" />
+            <dataField fieldName="ContactPhone" columns="50" />
+            <dataField fieldName="ContactEmail" columns="50" />
+            <dataField fieldName="ReportedBy" columns="30" />
+            <dataField fieldName="ReportedThru" columns="30" />
+          </dataFields>
+        </category>
+        <category id="c1" headerText="Ticket" flow="NewColumn">
+          <description />
+          <dataFields>
+            <dataField fieldName="BuildingBuildingname" />
+            <dataField fieldName="AssignedTo" columns="50" />
+            <dataField fieldName="residentFullName" />
+            <dataField fieldName="Status" columns="1" textMode="Static" />
+            <dataField fieldName="Priority" columns="15" />
+            <dataField fieldName="ProblemDescription" rows="5" />
+            <dataField fieldName="Message" rows="5" />
+            <dataField fieldName="Comment" rows="5" />
+            <dataField fieldName="CompletedDate" columns="20" textMode="Static" />
+            <dataField fieldName="workorder" hidden="true" />
+            <dataField fieldName="WoUnit" hidden="true" />
+            <dataField fieldName="assignedToOrg" hidden="true" />
+            <dataField fieldName="Recordingurl" hidden="true" />
+          </dataFields>
+        </category>
+        <category headerText="Completion Signature" id="c6" flow="NewRow">
+          <dataFields>
+            <dataField fieldName="CompletionSignature" columns="15" />
+          </dataFields>
+        </category>
+        <category headerText="Audit Trail" id="c5" flow="NewRow">
+          <dataFields>
+            <dataField fieldName="CreatedBy" columns="50" textMode="Static" tag="lookup-details-hidden" />
+            <dataField fieldName="CreatedDate" columns="20" textMode="Static" />
+            <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden" />
+            <dataField fieldName="UpdateDate" columns="20" textMode="Static" />
+            <dataField fieldName="CurrentUserName" columns="40" hidden="true" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+    <view id="createForm1" type="Form" commandId="command1" label="New WorkOrder" tags="modal-max-any">
+      <headerText />
+      <categories>
+        <category id="c1" headerText="New Ticket" flow="NewColumn">
+          <description />
+          <dataFields>
+            <dataField fieldName="BuildingID" aliasFieldName="BuildingBuildingname" />
+            <dataField fieldName="UnitID" aliasFieldName="UnitWoUnitnumber" />
+            <dataField fieldName="ResidentID" columns="15" aliasFieldName="residentFullName" />
+            <dataField fieldName="AssignedTo" columns="50" />
+            <dataField fieldName="Status" columns="1" hidden="true" textMode="Static" />
+            <dataField fieldName="Priority" columns="15" />
+            <dataField fieldName="ProblemDescription" rows="5" />
+            <dataField fieldName="Message" rows="5" />
+            <dataField fieldName="Comment" rows="5" />
+            <dataField fieldName="ContactName" columns="50" />
+            <dataField fieldName="ContactPhone" columns="50" />
+            <dataField fieldName="ContactEmail" columns="50" />
+            <dataField fieldName="ReportedBy" columns="30" />
+            <dataField fieldName="ReportedThru" columns="30" hidden="true" />
+            <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+    <view id="activeWo" type="Grid" commandId="command1" label="Open Tickets" filter="Status &lt;&gt; 'C'">
+      <headerText />
+      <dataFields>
+        <dataField fieldName="WoUnit" hidden="true" />
+        <dataField fieldName="BuildingBuildingname" />
+        <dataField fieldName="UnitWoUnitnumber" columns="25" />
+        <dataField fieldName="WoID" columns="15" />
+        <dataField fieldName="ContactName" columns="30" />
+        <dataField fieldName="ContactPhone" columns="20" />
+        <dataField fieldName="ContactEmail" columns="50" />
+        <dataField fieldName="assignedToOrg" hidden="true" />
+        <dataField fieldName="Recordingurl" hidden="true" />
+        <dataField fieldName="Status" columns="10" />
+        <dataField fieldName="Priority" columns="15" />
+        <dataField fieldName="AssignedTo" columns="20" />
+        <dataField fieldName="residentFullName" hidden="true" />
+        <dataField fieldName="ResidentID" columns="15" aliasFieldName="ResidentResidentfirstname" hidden="true" />
+        <dataField fieldName="UpdateBy" columns="50" hidden="true" />
+        <dataField fieldName="UpdateDate" columns="20" hidden="true" />
+        <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+        <dataField fieldName="workorder" hidden="true" />
+        <dataField fieldName="ProblemDescription" rows="5" hidden="true" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="CurrentUserName" columns="40" hidden="true" />
+      </dataFields>
+      <styles>
+        <expression type="ClientScript" result="waiting" test="$row.Status == 'W'" />
+        <expression type="ClientScript" result="Resolved" test="$row.Status == 'R'" />
+        <expression type="ClientScript" result="New" test="$row.Status == 'N'" />
+        <expression type="ClientScript" result="inProgress " test="$row.Status == 'I'" />
+        <expression type="ClientScript" result="Hold " test="$row.Status == 'H'" />
+        <expression type="ClientScript" result="closed" test="$row.Status == 'C'" />
+      </styles>
+    </view>
+  </views>
+  <actions>
+    <actionGroup id="ag1" scope="Grid">
+      <action id="a1" commandName="Select" commandArgument="editForm1" />
+      <action id="a2" commandName="Edit" whenClientScript="$row.Status != 'C'" />
+      <action id="a3" commandName="Delete" roles="Administrators,Silvershore" whenClientScript="$row.Status != 'C'" />
+      <action id="a6" />
+      <action id="a7" commandName="New" commandArgument="grid1" />
+      <action id="a8" commandName="Duplicate" commandArgument="createForm1" roles="Administrators,Silvershore" />
+      <action commandName="Custom" commandArgument="InProgressWo" headerText="In-Progress" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'I'" id="a101" cssClass="material-icon-play-circle-outline" />
+      <action commandName="Custom" commandArgument="ResolveWo" headerText="Resolved" whenClientScript="$row.Status == 'I'" id="a103" cssClass="material-icon-assignment-turned-in" />
+      <action commandName="Custom" commandArgument="CloseWo" headerText="Close" whenClientScript="$row.Status == 'R'" id="a100" cssClass="material-icon-archive" roles="Administrators,Silvershore" />
+      <action commandName="Custom" commandArgument="HoldWo" headerText="On Hold" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'H'" id="a102" cssClass="material-icon-pause-circle-outline" />
+      <action commandName="Custom" commandArgument="WaitingResidentWo" headerText="Waiting for Resident" whenClientScript="$row.Status != 'C'" id="a104" cssClass="material-icon-hourglass-full" />
+      <action commandName="Custom" commandArgument="PlayMSG" headerText="Play Voice Message" id="a105" cssClass="material-icon-volume-up" />
+    </actionGroup>
+    <actionGroup id="ag2" scope="Form">
+      <action id="a1" commandName="Edit" whenClientScript="$row.Status != 'C'" />
+      <action id="a2" commandName="Delete" roles="Administrators,Silvershore" whenClientScript="$row.Status != 'C'" />
+      <action id="a3" commandName="Cancel" />
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+      <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+      <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+      <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+      <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+      <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+      <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      <action commandName="Custom" commandArgument="InProgressWo" headerText="In-Progress" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'I'" id="a101" cssClass="material-icon-play-circle-outline" />
+      <action commandName="Custom" commandArgument="ResolveWo" headerText="Resolved" whenClientScript="$row.Status == 'I'" id="a103" cssClass="material-icon-assignment-turned-in" />
+      <action commandName="Custom" commandArgument="CloseWo" headerText="Close" whenClientScript="$row.Status == 'R'" id="a100" cssClass="material-icon-archive" roles="Administrators,Silvershore" />
+      <action commandName="Custom" commandArgument="HoldWo" headerText="On Hold" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'H'" id="a102" cssClass="material-icon-pause-circle-outline" />
+      <action commandName="Custom" commandArgument="WaitingResidentWo" headerText="Waiting for Resident" whenClientScript="$row.Status != 'C'" id="a104" cssClass="material-icon-record-voice-over" />
+      <action commandName="Custom" commandArgument="PlayMSG" headerText="Play Voice Message" id="a105" cssClass="material-icon-volume-up" />
+    </actionGroup>
+    <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+      <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+    </actionGroup>
+    <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+      <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" whenClientScript="$row.Status != 'C'" />
+      <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+      <action id="a1" commandName="ExportCsv" roles="Administrators,Silvershore" />
+      <action id="a2" />
+      <action id="a3" commandName="ExportRowset" roles="Administrators,Silvershore" />
+      <action id="a4" commandName="ExportRss" roles="Administrators,Silvershore" />
+      <action id="a5" />
+      <action id="a6" commandName="Import" commandArgument="createForm1" roles="Administrators,Silvershore" />
+      <action id="a7" commandName="DataSheet" roles="Administrators,Silvershore" />
+      <action id="a8" commandName="Grid" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+      <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a3" whenLastCommandName="New" commandName="Insert" />
+      <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+    <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+      <action id="a1" commandName="ReportAsPdf" roles="Administrators" />
+      <action id="a2" commandName="ReportAsImage" roles="Administrators" />
+      <action id="a3" commandName="ReportAsExcel" roles="Administrators" />
+      <action id="a4" commandName="ReportAsWord" roles="Administrators" />
+    </actionGroup>
+    <actionGroup id="ag8" scope="Row">
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" />
+      <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+  </actions>
+  <businessRules>
+    <rule id="r100" commandName="Insert" type="Sql" phase="Before"><![CDATA[SET @CreatedBy = @BusinessRules_UserName]]></rule>
+    <rule id="r101" commandName="Custom" commandArgument="HoldWo" type="Sql" phase="Execute"><![CDATA[UPDATE WO
+SET [status] = 'H'
+where woId = @WoID]]></rule>
+    <rule id="r102" commandName="Custom" commandArgument="InProgressWo" type="Sql" phase="Execute"><![CDATA[UPDATE WO
+SET [status] = 'I'
+where woId = @WoID]]></rule>
+    <rule id="r103" commandName="Custom" commandArgument="CloseWo" type="Sql" phase="Execute"><![CDATA[UPDATE WO
+SET [status] = 'C', [CompletedDate] = getdate()
+where woId = @WoID]]></rule>
+    <rule id="r104" commandName="Custom" commandArgument="ResolveWo" type="Sql" phase="Execute"><![CDATA[UPDATE WO
+SET [status] = 'R'
+where woId = @WoID]]></rule>
+    <rule id="r105" commandName="Custom" commandArgument="WaitingResidentWo" type="Sql" phase="Execute"><![CDATA[UPDATE WO
+SET [status] = 'W'
+where woId = @WoID]]></rule>
+    <rule id="r106" commandName="Insert|Update" type="JavaScript" phase="Before"><![CDATA[if ([AssignedTo] == 'Planned' && [assignedToOrg] != 'Planned'){
+	console.log([AssignedTo]+' '+[assignedToOrg]);
+  	var message = "Unit: "+[WoUnit]+"{lf}Contact Name: "+[ContactName]+" {lf}Contact Number: "+[ContactPhone]+" {lf}Problem: "+[ProblemDescription];
+  	$.post("http://cp.planned.co/text.cfm", {message: message}, function(result){
+        
+    });
+}
+]]></rule>
+    <rule id="r107" commandName="Custom" commandArgument="PlayMSG" type="JavaScript" phase="Before"><![CDATA[var recordingurl = [Recordingurl] ;
+window.open(recordingurl, "_blank");
+this.preventDefault();]]></rule>
+    <rule id="r108" commandName="Custom" commandArgument="ResolveWo" type="JavaScript" phase="After"><![CDATA[console.log('resolved');
+var woid = [WoID];
+var username = [CurrentUserName];
+var status = 'Resolved';
+var updateDate = new Date();
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", 
+   {method: 'sendWoStatus', updateBy: username, WOId: woid, status: status, updatedDate: updateDate }, 
+   function(result){    
+});]]></rule>
+    <rule id="r109" commandName="Custom" commandArgument="HoldWo" type="JavaScript" phase="After"><![CDATA[console.log('OnHold');
+var woid = [WoID];
+var username = [CurrentUserName];
+var status = 'On Hold';
+var updateDate = new Date();
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", 
+   {method: 'sendWoStatus', updateBy: username, WOId: woid, status: status, updatedDate: updateDate }, 
+   function(result){    
+});]]></rule>
+    <rule id="r110" commandName="Custom" commandArgument="InProgressWo" type="JavaScript" phase="After"><![CDATA[console.log('InProgress');
+var woid = [WoID];
+var username = [CurrentUserName];
+var status = 'In Progress';
+var updateDate = new Date();
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", 
+   {method: 'sendWoStatus', updateBy: username, WOId: woid, status: status, updatedDate: updateDate }, 
+   function(result){    
+});]]></rule>
+    <rule id="r111" commandName="Custom" commandArgument="WaitingResidentWo" type="JavaScript" phase="After"><![CDATA[console.log('Waiting');
+var woid = [WoID];
+var username = [CurrentUserName];
+var status = 'Waiting for resident';
+var updateDate = new Date();
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", 
+   {method: 'sendWoStatus', updateBy: username, WOId: woid, status: status, updatedDate: updateDate }, 
+   function(result){    
+});]]></rule>
+  </businessRules>
+</dataController>

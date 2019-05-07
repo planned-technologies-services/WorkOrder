@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataController name="Resident" conflictDetection="overwriteChanges" label="Resident" handler="Planned.Rules.ResidentBusinessRules" xmlns="urn:schemas-codeontime-com:data-aquarium">
+  <commands>
+    <command id="command1" type="Text">
+      <text><![CDATA[
+select
+	"resident"."residentId" "ResidentID"
+	,"resident"."unitId" "UnitID"
+	,"unit"."unitNumber" "UnitunitNumber"
+	,"unitbuilding"."buildingNumber" "UnitbuildingbuildingNumber"
+	,"resident"."residentFirstName" "ResidentFirstName"
+	,"resident"."residentLastName" "ResidentLastName"
+	,"resident"."residentPhoneNumber" "ResidentPhoneNumber"
+	,"resident"."residentEmail" "ResidentEmail"
+	,"resident"."isActive" "IsActive"
+	,"resident"."comment" "Comment"
+	,"resident"."createdBy" "CreatedBy"
+	,"resident"."createdDate" "CreatedDate"
+	,"resident"."residentPrefix" "ResidentPrefix"
+	,"resident"."updateBy" "UpdateBy"
+	,"resident"."updateDate" "UpdateDate"
+from "dbo"."resident" "resident"
+	left join "dbo"."unit" "unit" on "resident"."unitId" = "unit"."unitId"
+	left join "dbo"."building" "unitbuilding" on "unit"."buildingId" = "unitbuilding"."buildingId"
+]]></text>
+    </command>
+    <command id="residentIdIdentityCommand" type="Text" event="Inserted">
+      <text><![CDATA[select @@identity]]></text>
+      <output>
+        <fieldOutput fieldName="residentId" />
+      </output>
+    </command>
+  </commands>
+  <fields>
+    <field name="ResidentID" type="Int32" allowNulls="false" isPrimaryKey="true" label="resident Id" readOnly="true" />
+    <field name="UnitID" type="Int32" label="unit Id" showInSummary="true">
+      <items style="Lookup" dataController="Unit" newDataView="createForm1" dataValueField="UnitID" dataTextField="UnitNumber" copy="UnitbuildingbuildingNumber=BuildingUnitbuildingNumber" />
+    </field>
+    <field name="UnitunitNumber" type="String" readOnly="true" label="Unit Number" length="5" />
+    <field name="UnitbuildingbuildingNumber" type="String" readOnly="true" label="Building Number" length="5" />
+    <field name="ResidentFirstName" type="String" label="First Name" length="50" showInSummary="true" />
+    <field name="ResidentLastName" type="String" label="Last Name" length="50" showInSummary="true" />
+    <field name="ResidentPhoneNumber" type="String" label="Phone Number" length="20" showInSummary="true" />
+    <field name="ResidentEmail" type="String" label="Email" length="50" showInSummary="true" />
+    <field name="IsActive" type="Boolean" label="Active" allowNulls="false">
+      <items style="CheckBox" />
+    </field>
+    <field name="Comment" type="String" allowQBE="false" allowSorting="false" label="Comment" />
+    <field name="CreatedBy" type="String" label="created By" length="50">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" />
+    <field name="ResidentPrefix" type="String" label="Prefix" length="5">
+      <items style="DropDownList">
+        <item value="Mr" text="Mr." />
+        <item value="Mrs" text="Mrs." />
+      </items>
+    </field>
+    <field name="ResidentFullName" type="String" readOnly="true" label="Full Name" computed="true">
+      <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+    </field>
+    <field name="UpdateBy" type="String" label="Update By" length="50">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+  </fields>
+  <views>
+    <view id="grid1" type="Grid" commandId="command1" label="Resident">
+      <headerText>$DefaultGridViewDescription</headerText>
+      <dataFields>
+        <dataField fieldName="UnitID" aliasFieldName="UnitunitNumber" />
+        <dataField fieldName="UnitbuildingbuildingNumber" columns="5" />
+        <dataField fieldName="ResidentFirstName" columns="50" />
+        <dataField fieldName="ResidentLastName" columns="50" />
+        <dataField fieldName="ResidentPhoneNumber" columns="20" />
+        <dataField fieldName="ResidentEmail" columns="50" />
+        <dataField fieldName="IsActive" />
+        <dataField fieldName="Comment" rows="5" />
+        <dataField fieldName="CreatedBy" columns="50" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="ResidentPrefix" columns="5" />
+        <dataField fieldName="ResidentFullName" />
+        <dataField fieldName="UpdateBy" columns="50" />
+        <dataField fieldName="UpdateDate" columns="20" />
+      </dataFields>
+    </view>
+    <view id="editForm1" type="Form" commandId="command1" label="Review Resident">
+      <headerText>$DefaultEditViewDescription</headerText>
+      <categories>
+        <category id="c1" headerText="Resident" flow="NewColumn">
+          <description><![CDATA[$DefaultEditDescription]]></description>
+          <dataFields>
+            <dataField fieldName="UnitID" aliasFieldName="UnitunitNumber" />
+            <dataField fieldName="UnitbuildingbuildingNumber" columns="5" />
+            <dataField fieldName="ResidentPrefix" columns="5" />
+            <dataField fieldName="ResidentFirstName" columns="50" />
+            <dataField fieldName="ResidentLastName" columns="50" />
+            <dataField fieldName="ResidentPhoneNumber" columns="20" />
+            <dataField fieldName="ResidentEmail" columns="50" />
+            <dataField fieldName="IsActive" />
+            <dataField fieldName="Comment" rows="5" />
+          </dataFields>
+        </category>
+        <category headerText="Audit Trail" id="c2">
+          <dataFields>
+            <dataField fieldName="CreatedBy" columns="50" textMode="Static" />
+            <dataField fieldName="CreatedDate" columns="20" textMode="Static" />
+            <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden" />
+            <dataField fieldName="UpdateDate" columns="20" textMode="Static" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+    <view id="createForm1" type="Form" commandId="command1" label="New Resident">
+      <headerText>$DefaultCreateViewDescription</headerText>
+      <categories>
+        <category id="c1" headerText="New Resident" flow="NewColumn">
+          <description><![CDATA[$DefaultNewDescription]]></description>
+          <dataFields>
+            <dataField fieldName="UnitID" aliasFieldName="UnitunitNumber" />
+            <dataField fieldName="UnitbuildingbuildingNumber" columns="5" />
+            <dataField fieldName="ResidentPrefix" columns="5" />
+            <dataField fieldName="ResidentFirstName" columns="50" />
+            <dataField fieldName="ResidentLastName" columns="50" />
+            <dataField fieldName="ResidentPhoneNumber" columns="20" />
+            <dataField fieldName="ResidentEmail" columns="50" />
+            <dataField fieldName="IsActive" />
+            <dataField fieldName="Comment" rows="5" />
+            <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+  </views>
+  <actions>
+    <actionGroup id="ag1" scope="Grid">
+      <action id="a1" commandName="Select" commandArgument="editForm1" />
+      <action id="a2" commandName="Edit" />
+      <action id="a3" commandName="Delete" roles="Administrators,Silvershore" />
+      <action id="a6" />
+      <action id="a7" commandName="New" commandArgument="grid1" roles="Administrators,Silvershore" />
+      <action id="a8" commandName="Duplicate" commandArgument="createForm1" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag2" scope="Form">
+      <action id="a1" commandName="Edit" roles="Administrators,Silvershore" />
+      <action id="a2" commandName="Delete" roles="Administrators,Silvershore" />
+      <action id="a3" commandName="Cancel" />
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+      <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+      <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+      <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+      <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+      <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+      <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+    </actionGroup>
+    <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+      <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+      <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" roles="Administrators,Silvershore" />
+      <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+      <action id="a1" commandName="ExportCsv" roles="Administrators,Silvershore" />
+      <action id="a2" />
+      <action id="a3" commandName="ExportRowset" roles="Administrators,Silvershore" />
+      <action id="a4" commandName="ExportRss" roles="Administrators,Silvershore" />
+      <action id="a5" />
+      <action id="a6" commandName="Import" commandArgument="createForm1" roles="Administrators,Silvershore" />
+      <action id="a7" commandName="DataSheet" roles="Administrators,Silvershore" />
+      <action id="a8" commandName="Grid" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+      <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a3" whenLastCommandName="New" commandName="Insert" />
+      <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+    <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+      <action id="a1" commandName="ReportAsPdf" roles="Administrators,Silvershore" />
+      <action id="a2" commandName="ReportAsImage" roles="Administrators,Silvershore" />
+      <action id="a3" commandName="ReportAsExcel" roles="Administrators,Silvershore" />
+      <action id="a4" commandName="ReportAsWord" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag8" scope="Row">
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" />
+      <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+  </actions>
+  <businessRules>
+    <rule id="r100" commandName="Insert" type="Sql" phase="Before"><![CDATA[SET @CreatedBy = @BusinessRules_UserName]]></rule>
+  </businessRules>
+</dataController>

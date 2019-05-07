@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataController name="WoItemAttachment" conflictDetection="overwriteChanges" label="Wo Item Attachment" xmlns="urn:schemas-codeontime-com:data-aquarium">
+  <commands>
+    <command id="command1" type="Text">
+      <text><![CDATA[
+select
+	"woItemAttachment"."woItemAttachmentId" "WoItemAttachmentID"
+	,"woItemAttachment"."woItemId" "WoItemID"
+	,"woItem"."details" "WoitemDetails"
+	,"woItemwo"."woId" "WoitemwoWoid"
+	,"woItemAttachment"."FileName" "FileName"
+	,"woItemAttachment"."Length" "Length"
+	,"woItemAttachment"."ContentType" "ContentType"
+	,"woItemAttachment"."createdBy" "CreatedBy"
+	,"woItemAttachment"."createdDate" "CreatedDate"
+	,"woItemAttachment"."Comment" "Comment"
+	,"woItemAttachment"."type" "Type"
+	,"woItemAttachment"."updateDate" "UpdateDate"
+	,"woItemAttachment"."updateBy" "UpdateBy"
+from "dbo"."woItemAttachment" "woItemAttachment"
+	left join "dbo"."woItem" "woItem" on "woItemAttachment"."woItemId" = "woItem"."woItemId"
+	left join "dbo"."WO" "woItemwo" on "woItem"."woId" = "woItemwo"."woId"
+]]></text>
+    </command>
+    <command id="woItemAttachmentIdIdentityCommand" type="Text" event="Inserted">
+      <text><![CDATA[select @@identity]]></text>
+      <output>
+        <fieldOutput fieldName="woItemAttachmentId" />
+      </output>
+    </command>
+  </commands>
+  <fields>
+    <field name="WoItemAttachmentID" type="Int32" allowNulls="false" isPrimaryKey="true" label="wo Item Attachment Id" readOnly="true" />
+    <field name="WoItemID" type="Int32" allowNulls="false" label="wo Item Id" showInSummary="true">
+      <items style="Lookup" dataController="WoItem" newDataView="createForm1" dataValueField="WoItemID" dataTextField="Details" copy="" />
+    </field>
+    <field name="WoitemDetails" type="String" readOnly="true" label="Woitem Details" length="100" />
+    <field name="WoitemwoWoid" type="Int32" label="Woitemwo Woid" readOnly="true" />
+    <field name="FileName" type="String" allowNulls="false" label="File Name" length="50" showInSummary="true" />
+    <field name="Length" type="Int32" allowNulls="false" label="Length" showInSummary="true" />
+    <field name="ContentType" type="String" allowNulls="false" label="Content Type" length="250" showInSummary="true" />
+    <field name="CreatedBy" type="String" label="created By" length="50" showInSummary="true">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" />
+    <field name="Comment" type="String" label="Comment" length="250" />
+    <field name="Type" type="String" label="Type" length="2" allowNulls="false">
+      <items style="ListBox">
+        <item value="B" text="Before Picture" />
+        <item value="A" text="After Picture" />
+        <item value="E" text="Expense" />
+        <item value="O" text="Other" />
+      </items>
+    </field>
+    <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+    <field name="UpdateBy" type="String" label="Update By" length="50">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="Attachment" type="Byte[]" label="Attachment" sourceFields="WoItemAttachmentID" onDemand="true" onDemandHandler="WoItemAttachmentHandler" onDemandStyle="Thumbnail" />
+  </fields>
+  <views>
+    <view id="grid1" type="Grid" commandId="command1" label="Attachment">
+      <headerText />
+      <dataFields>
+        <dataField fieldName="FileName" columns="50" hidden="true" />
+        <dataField fieldName="Attachment" columns="15" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="Type" columns="15" />
+        <dataField fieldName="Comment" />
+        <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+        <dataField fieldName="WoItemID" aliasFieldName="WoitemDetails" hidden="true" />
+        <dataField fieldName="WoitemwoWoid" columns="15" hidden="true" />
+        <dataField fieldName="Length" columns="15" hidden="true" />
+        <dataField fieldName="ContentType" hidden="true" />
+        <dataField fieldName="UpdateDate" columns="20" hidden="true" />
+        <dataField fieldName="UpdateBy" columns="50" hidden="true" />
+      </dataFields>
+    </view>
+    <view id="editForm1" type="Form" commandId="command1" label="Review Attachment" tags="modal-max-any">
+      <headerText />
+      <categories>
+        <category id="c1" headerText="Item Attachment" flow="NewColumn">
+          <description />
+          <dataFields>
+            <dataField fieldName="WoItemID" aliasFieldName="WoitemDetails" />
+            <dataField fieldName="WoitemwoWoid" columns="15" />
+            <dataField fieldName="FileName" columns="50" />
+            <dataField fieldName="Length" columns="15" />
+            <dataField fieldName="ContentType" />
+            <dataField fieldName="Type" columns="2" />
+            <dataField fieldName="Attachment" columns="15" tag="header-image-original" />
+            <dataField fieldName="Comment" />
+          </dataFields>
+        </category>
+        <category headerText="Audit Trail" id="c2">
+          <dataFields>
+            <dataField fieldName="UpdateDate" columns="20" textMode="Static" />
+            <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden" />
+            <dataField fieldName="CreatedBy" columns="50" textMode="Static" />
+            <dataField fieldName="CreatedDate" columns="20" textMode="Static" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+    <view id="createForm1" type="Form" commandId="command1" label="New Attachment" tags="modal-max-any">
+      <headerText />
+      <categories>
+        <category id="c1" flow="NewColumn">
+          <description />
+          <dataFields>
+            <dataField fieldName="WoItemID" aliasFieldName="WoitemDetails" />
+            <dataField fieldName="WoitemwoWoid" columns="15" hidden="true" />
+            <dataField fieldName="FileName" columns="50" />
+            <dataField fieldName="Length" columns="15" hidden="true" />
+            <dataField fieldName="ContentType" />
+            <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+            <dataField fieldName="Type" columns="2" />
+            <dataField fieldName="Attachment" columns="15" />
+            <dataField fieldName="Comment" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+  </views>
+  <actions>
+    <actionGroup id="ag1" scope="Grid">
+      <action id="a1" commandName="Select" commandArgument="editForm1" />
+      <action id="a2" commandName="Edit" roles="Administrators,Silvershore" />
+      <action id="a3" commandName="Delete" roles="Administrators,Silvershore" />
+      <action id="a6" />
+      <action id="a7" commandName="New" commandArgument="grid1" />
+      <action id="a8" commandName="Duplicate" commandArgument="createForm1" roles="Administrators" />
+    </actionGroup>
+    <actionGroup id="ag2" scope="Form">
+      <action id="a1" commandName="Edit" roles="Administrators,Silvershore" />
+      <action id="a2" commandName="Delete" roles="Administrators,Silvershore" />
+      <action id="a3" commandName="Cancel" />
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+      <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+      <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+      <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+      <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+      <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+      <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+    </actionGroup>
+    <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+      <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+    </actionGroup>
+    <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+      <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" roles="Administrators,Silvershore" />
+      <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+      <action id="a1" commandName="ExportCsv" roles="Administrators,Silvershore" />
+      <action id="a2" />
+      <action id="a3" commandName="ExportRowset" roles="Administrators,Silvershore" />
+      <action id="a4" commandName="ExportRss" roles="Administrators,Silvershore" />
+      <action id="a5" />
+      <action id="a6" commandName="Import" commandArgument="createForm1" roles="Administrators,Silvershore" />
+      <action id="a7" commandName="DataSheet" roles="Administrators,Silvershore" />
+      <action id="a8" commandName="Grid" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+      <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a3" whenLastCommandName="New" commandName="Insert" />
+      <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+    <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+      <action id="a1" commandName="ReportAsPdf" roles="Administrators,Silvershore" />
+      <action id="a2" commandName="ReportAsImage" roles="Administrators,Silvershore" />
+      <action id="a3" commandName="ReportAsExcel" roles="Administrators,Silvershore" />
+      <action id="a4" commandName="ReportAsWord" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag8" scope="Row">
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" />
+      <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+  </actions>
+  <blobAdapterConfig>Field: Attachment
+Storage-System: File
+Path-Template: C:\appsLibrary\Silvershore\WorkOrder\{WoItemAttachmentID}-{FileName}
+File-Name-Field: FileName
+Content-Type-Field: ContentType
+Length-Field: Length</blobAdapterConfig>
+  <businessRules>
+    <rule id="r100" commandName="Insert" type="Sql" phase="Before"><![CDATA[SET @CreatedBy = @BusinessRules_UserName]]></rule>
+  </businessRules>
+</dataController>

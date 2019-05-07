@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="woItem" alias="woItem" created="2017-08-03T09:35:28" modified="2017-08-21T10:40:50" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="wo" parentTableSchema="dbo" parentTableName="WO" x="321" y="20">
+      <foreignKeyColumn columnName="woId" parentColumnName="woId" />
+    </foreignKey>
+    <foreignKey id="unit" parentTableSchema="dbo" parentTableName="unit" x="587" y="20" baseForeignKey="wo">
+      <foreignKeyColumn columnName="unitId" parentColumnName="unitId" />
+    </foreignKey>
+    <foreignKey id="building" parentTableSchema="dbo" parentTableName="building" x="860" y="20" baseForeignKey="wo">
+      <foreignKeyColumn columnName="buildingId" parentColumnName="buildingId" />
+    </foreignKey>
+    <foreignKey id="resident" parentTableSchema="dbo" parentTableName="resident" x="1166" y="20" baseForeignKey="wo">
+      <foreignKeyColumn columnName="residentId" parentColumnName="residentId" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="woItemId" fieldName="WoItemID" label="wo Item Id" />
+    <column name="woId" fieldName="WoID" label="wo Id" aliasColumnName="status" aliasForeignKey="wo" />
+    <column name="status" fieldName="Wostatus" label="Wostatus" foreignKey="wo" />
+    <column name="assignedTo" fieldName="woAssignedto" label="wo Assignedto" foreignKey="wo" />
+    <column name="status" fieldName="Status" label="Status" />
+    <column name="priority" fieldName="Priority" label="Priority" />
+    <column name="details" fieldName="Details" label="Details" />
+    <column name="comment" fieldName="Comment" label="Comment" />
+    <column name="assignedTo" fieldName="AssignedTo" label="assigned To" />
+    <column name="completedDate" fieldName="CompletedDate" label="completed Date" format="g" />
+    <column name="completedBy" fieldName="CompletedBy" label="completed By" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+    <column name="assignedDate" fieldName="AssignedDate" label="Assigned Date" format="g" />
+    <column name="scheduledDate" fieldName="ScheduledDate" label="Scheduled Date" format="g" />
+    <column name="unitNumber" fieldName="UnitUnitnumber" label="Unit Unitnumber" foreignKey="unit" />
+    <column name="buildingName" fieldName="BuildingBuildingname" label="Building Buildingname" foreignKey="building" />
+    <column name="residentFirstName" fieldName="ResidentResidentfirstname" label="Resident Residentfirstname" foreignKey="resident" />
+    <column name="residentLastName" fieldName="ResidentResidentlastname" label="Resident Residentlastname" foreignKey="resident" />
+    <column fieldName="woItemUnitDetails" type="nvarchar(159)" dataType="String" label="wo Item Unit Details">
+      <formula>building.buildingName+' -('+unit.unitNumber+')'</formula>
+    </column>
+    <column fieldName="woItemResidentFullName" type="nvarchar(102)" dataType="String" label="wo Item Resident Full Name">
+      <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+    </column>
+  </columns>
+</dataModel>

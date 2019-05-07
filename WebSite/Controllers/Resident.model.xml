@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="resident" alias="resident" created="2017-08-04T13:02:49" modified="2017-08-08T11:58:56" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="unit" parentTableSchema="dbo" parentTableName="unit" x="353" y="20">
+      <foreignKeyColumn columnName="unitId" parentColumnName="unitId" />
+    </foreignKey>
+    <foreignKey id="unitbuilding" parentTableSchema="dbo" parentTableName="building" baseForeignKey="unit" x="621" y="20">
+      <foreignKeyColumn columnName="buildingId" parentColumnName="buildingId" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="residentId" fieldName="ResidentID" label="resident Id" />
+    <column name="unitId" fieldName="UnitID" label="unit Id" aliasColumnName="unitNumber" aliasForeignKey="unit" />
+    <column name="unitNumber" fieldName="UnitunitNumber" label="unitunit Number" foreignKey="unit" />
+    <column name="buildingNumber" fieldName="UnitbuildingbuildingNumber" label="unitbuildingbuilding Number" foreignKey="unitbuilding" />
+    <column name="residentFirstName" fieldName="ResidentFirstName" label="resident First Name" />
+    <column name="residentLastName" fieldName="ResidentLastName" label="resident Last Name" />
+    <column name="residentPhoneNumber" fieldName="ResidentPhoneNumber" label="resident Phone Number" />
+    <column name="residentEmail" fieldName="ResidentEmail" label="resident Email" />
+    <column name="isActive" fieldName="IsActive" label="is Active" />
+    <column name="comment" fieldName="Comment" label="Comment" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="residentPrefix" fieldName="ResidentPrefix" label="Resident Prefix" />
+    <column fieldName="ResidentFullName" type="nvarchar(102)" dataType="String" label="Resident Full Name">
+      <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+    </column>
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+  </columns>
+</dataModel>

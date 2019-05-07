@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="woItemTransaction" alias="woItemTransaction" created="2017-08-03T09:36:27" modified="2017-08-08T11:58:11" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="woItem" parentTableSchema="dbo" parentTableName="woItem" x="321" y="20">
+      <foreignKeyColumn columnName="woItemId" parentColumnName="woItemId" />
+    </foreignKey>
+    <foreignKey id="woItemwo" parentTableSchema="dbo" parentTableName="WO" baseForeignKey="woItem" x="639" y="20">
+      <foreignKeyColumn columnName="woId" parentColumnName="woId" />
+    </foreignKey>
+    <foreignKey id="transactionType" parentTableSchema="dbo" parentTableName="woTransactionType" x="321" y="204">
+      <foreignKeyColumn columnName="transactionTypeId" parentColumnName="transactionTypeId" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="woItemTransId" fieldName="WoItemTransID" label="wo Item Trans Id" />
+    <column name="woItemId" fieldName="WoItemID" label="wo Item Id" aliasColumnName="status" aliasForeignKey="woItem" />
+    <column name="status" fieldName="WoItemstatus" label="wo Itemstatus" foreignKey="woItem" />
+    <column name="woId" fieldName="WoitemwoWoid" label="Woitemwo Woid" foreignKey="woItemwo" />
+    <column name="transactionTypeId" fieldName="TransactionTypeID" label="transaction Type Id" aliasColumnName="transactionType" aliasForeignKey="transactionType" />
+    <column name="transactionType" fieldName="TransactionTypetransactionType" label="transaction Typetransaction Type" foreignKey="transactionType" />
+    <column name="startDate" fieldName="StartDate" label="start Date" format="g" />
+    <column name="endDate" fieldName="EndDate" label="end Date" format="g" />
+    <column name="note" fieldName="Note" label="Note" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+  </columns>
+</dataModel>

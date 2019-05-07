@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="users" alias="users" created="2017-08-23T09:45:38" modified="2017-08-23T09:47:12" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys />
+  <columns>
+    <column name="userId" fieldName="UserID" label="user Id" />
+    <column name="userName" fieldName="UserName" label="user Name" />
+    <column name="group" fieldName="Group" label="Group" />
+    <column name="firstName" fieldName="FirstName" label="first Name" />
+    <column name="lastName" fieldName="LastName" label="last Name" />
+    <column name="phoneNumber" fieldName="PhoneNumber" label="phone Number" />
+    <column name="isActive" fieldName="IsActive" label="is Active" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column fieldName="userFullName" type="varchar(102)" dataType="String" label="User Full Name">
+      <formula>users.lastName+', '+users.firstName</formula>
+    </column>
+  </columns>
+</dataModel>

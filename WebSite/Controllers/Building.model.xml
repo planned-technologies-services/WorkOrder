@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="building" alias="building" created="2017-08-04T12:59:39" modified="2017-08-09T13:44:08" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys />
+  <columns>
+    <column name="buildingId" fieldName="BuildingID" label="building Id" />
+    <column name="buildingNumber" fieldName="BuildingNumber" label="building Number" />
+    <column name="buildingAddress" fieldName="BuildingAddress" label="building Address" />
+    <column name="buildingZipcode" fieldName="BuildingZipcode" label="building Zipcode" />
+    <column name="buildingState" fieldName="BuildingState" label="building State" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="createdBy" fieldName="CreatedBy" label="Created By" />
+    <column name="buildingName" fieldName="BuildingName" label="Building Name" />
+    <column name="buildingCity" fieldName="BuildingCity" label="Building City" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+    <column name="voiceMessage" fieldName="VoiceMessage" label="Voice Message" />
+  </columns>
+</dataModel>

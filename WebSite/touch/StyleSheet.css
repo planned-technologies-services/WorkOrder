@@ -1,0 +1,70 @@
+﻿.myLateTask > .ui-btn:not(:hover) {
+    /* change this property */
+    background-color: red !important;
+}
+
+.myregTask > .ui-btn:not(:hover) {
+    /* change this property */
+    background-color: yellow !important;
+}
+
+.Resolved > .ui-btn:not(:hover) {
+    /* change this property */
+    background-color: lightgreen !important;
+}
+
+.Resolved > .ui-btn:hover{
+    /* change this property */
+    background-color: palegreen !important;
+}
+
+.inProgress > .ui-btn:not(:hover) {
+    /* change this property */
+    background-color: lightskyblue !important;
+}
+
+.inProgress > .ui-btn:hover {
+    /* change this property */
+    background-color: lightblue !important;
+}
+
+.closed > .ui-btn:not(:hover) {
+    /* change this property */
+    background-color: lightgray !important;
+}
+
+.closed > .ui-btn:hover {
+    /* change this property */
+    background-color: darkgray !important;
+}
+
+.waiting > .ui-btn:not(:hover) {
+    /* change this property */
+    background-color: orange !important;
+}
+
+.waiting > .ui-btn:hover {
+    /* change this property */
+    background-color: floralwhite !important;
+}
+
+.Hold > .ui-btn:not(:hover) {
+    /* change this property */
+    background-color: black !important;
+    color: white !important;
+}
+
+.Hold > .ui-btn:hover {
+    /* change this property */
+    background-color: darkslategray !important;
+    color: white !important;
+}
+.New > .ui-btn:not(:hover) {
+    /* change this property */
+    background-color: gold !important;
+}
+
+.New > .ui-btn:hover {
+    /* change this property */
+    background-color: yellow !important;
+}

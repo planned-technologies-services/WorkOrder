@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="woNoteTemplate" alias="woNoteTemplate" created="2017-08-03T09:36:02" modified="2017-08-08T11:58:00" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys />
+  <columns>
+    <column name="woNoteTempId" fieldName="WoNoteTempID" label="wo Note Temp Id" />
+    <column name="note" fieldName="Note" label="Note" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+  </columns>
+</dataModel>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0">
+  <siteMapNode title="^SiteHome^Home^SiteHome^" description="" url="~/index.html">
+    <siteMapNode title="^HomePath^Home^HomePath^" description="^HomeDesc^Application home page^HomeDesc^" url="~/pages/home" cssClass="Wide" />
+    <siteMapNode title="Tickets" description="View Tickets" url="~/pages/tickets" />
+    <siteMapNode title="Ticket Item" description="View Ticket Item" url="~/pages/ticket-item" />
+    <siteMapNode title="Maintenance" description="" url="~/pages/maintenance" roles="Administrators,Silvershore">
+      <siteMapNode title="Building" description="View Building" url="~/pages/building" roles="Administrators,Silvershore" />
+      <siteMapNode title="Unit" description="View Unit" url="~/pages/unit" />
+      <siteMapNode title="Resident" description="View Resident" url="~/pages/resident" />
+      <siteMapNode title="Note Template" description="View Note Template" url="~/pages/note-template" />
+      <siteMapNode title="Item Action" description="View Item Action" url="~/pages/item-action" />
+      <siteMapNode title="Transaction Type" description="View Transaction Type" url="~/pages/transaction-type" />
+      <siteMapNode title="Note" description="View Note" url="~/pages/note" />
+      <siteMapNode title="Item Attachment" description="View Item Attachment" url="~/pages/item-attachment" />
+      <siteMapNode title="Users" description="View Users" url="~/pages/users" roles="Administrators" />
+    </siteMapNode>
+    <siteMapNode title="^MembershipPath^Membership^MembershipPath^" description="^MembershipDesc^User and role manager^MembershipDesc^" url="~/pages/membership" roles="Administrators" />
+  </siteMapNode>
+</siteMap>

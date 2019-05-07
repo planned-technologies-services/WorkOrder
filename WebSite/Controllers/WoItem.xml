@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataController name="WoItem" conflictDetection="overwriteChanges" label="Wo Item" handler="Planned.Rules.WoItemBusinessRules" xmlns="urn:schemas-codeontime-com:data-aquarium">
+  <commands>
+    <command id="command1" type="Text">
+      <text><![CDATA[
+select
+	"woItem"."woItemId" "WoItemID"
+	,"woItem"."woId" "WoID"
+	,"wo"."status" "Wostatus"
+	,"wo"."assignedTo" "woAssignedto"
+	,"woItem"."status" "Status"
+	,"woItem"."priority" "Priority"
+	,"woItem"."details" "Details"
+	,"woItem"."comment" "Comment"
+	,"woItem"."assignedTo" "AssignedTo"
+	,"woItem"."completedDate" "CompletedDate"
+	,"woItem"."completedBy" "CompletedBy"
+	,"woItem"."createdBy" "CreatedBy"
+	,"woItem"."createdDate" "CreatedDate"
+	,"woItem"."updateBy" "UpdateBy"
+	,"woItem"."updateDate" "UpdateDate"
+	,"woItem"."assignedDate" "AssignedDate"
+	,"woItem"."scheduledDate" "ScheduledDate"
+	,"unit"."unitNumber" "UnitUnitnumber"
+	,"building"."buildingName" "BuildingBuildingname"
+	,"resident"."residentFirstName" "ResidentResidentfirstname"
+	,"resident"."residentLastName" "ResidentResidentlastname"
+from "dbo"."woItem" "woItem"
+	left join "dbo"."WO" "wo" on "woItem"."woId" = "wo"."woId"
+	left join "dbo"."unit" "unit" on "wo"."unitId" = "unit"."unitId"
+	left join "dbo"."building" "building" on "wo"."buildingId" = "building"."buildingId"
+	left join "dbo"."resident" "resident" on "wo"."residentId" = "resident"."residentId"
+]]></text>
+    </command>
+    <command id="woItemIdIdentityCommand" type="Text" event="Inserted">
+      <text><![CDATA[select @@identity]]></text>
+      <output>
+        <fieldOutput fieldName="woItemId" />
+      </output>
+    </command>
+  </commands>
+  <fields>
+    <field name="WoItemID" type="Int32" allowNulls="false" isPrimaryKey="true" label="wo Item Id" readOnly="true" />
+    <field name="WoID" type="Int32" allowNulls="false" label="wo Id" showInSummary="true">
+      <items style="Lookup" dataController="Wo" newDataView="createForm1" dataValueField="WoID" dataTextField="WoUnit" copy="woAssignedto=AssignedTo, UnitUnitnumber=UnitWoUnitnumber, BuildingBuildingname=BuildingBuildingname, ResidentResidentfirstname=ResidentResidentfirstname, ResidentResidentlastname=ResidentResidentlastname" />
+    </field>
+    <field name="Wostatus" type="String" readOnly="true" label="Wostatus" length="1">
+      <items style="DropDownList">
+        <item value="N" text="New" />
+        <item value="P" text="Pending" />
+        <item value="I" text="In Progress" />
+        <item value="W" text="Waiting for Reaident" />
+        <item value="H" text="On Hold" />
+        <item value="R" text="Resolved" />
+        <item value="C" text="Closed" />
+      </items>
+    </field>
+    <field name="woAssignedto" type="String" readOnly="true" label="wo Assignedto" length="50" />
+    <field name="Status" type="String" allowNulls="false" label="Status" length="1" showInSummary="true">
+      <items style="DropDownList">
+        <item value="N" text="New" />
+        <item value="P" text="Pending" />
+        <item value="I" text="In Progress" />
+        <item value="W" text="Waiting for Resident" />
+        <item value="H" text="On Hold" />
+        <item value="R" text="Resolved" />
+        <item value="C" text="Closed" />
+      </items>
+    </field>
+    <field name="Priority" type="Int32" label="Priority" showInSummary="true" allowNulls="false">
+      <items style="ListBox">
+        <item value="10" text="Very Low" />
+        <item value="20" text="Low" />
+        <item value="30" text="Normal" />
+        <item value="40" text="High" />
+        <item value="50" text="Very High" />
+        <item value="60" text="Urgent" />
+      </items>
+    </field>
+    <field name="Details" type="String" allowNulls="false" label="Details" length="100" showInSummary="true" />
+    <field name="Comment" type="String" allowQBE="false" allowSorting="false" label="Comment" showInSummary="true" />
+    <field name="AssignedTo" type="String" label="assigned To" length="50">
+      <items style="RadioButtonList" dataController="Users" dataView="grid1" dataTextField="userFullName" dataValueField="UserName" />
+    </field>
+    <field name="CompletedDate" type="DateTime" dataFormatString="g" label="completed Date" />
+    <field name="CompletedBy" type="String" label="completed By" length="50">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="CreatedBy" type="String" label="created By" length="50">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" />
+    <field name="UpdateBy" type="String" label="Update By" length="50">
+      <items style="UserNameLookup" />
+    </field>
+    <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+    <field name="AssignedDate" type="DateTime" dataFormatString="g" label="Assigned Date" />
+    <field name="ScheduledDate" type="DateTime" dataFormatString="g" label="Scheduled Date" causesCalculate="true" />
+    <field name="UnitUnitnumber" type="String" readOnly="true" label="Unit" length="25" />
+    <field name="BuildingBuildingname" type="String" readOnly="true" label="Building" length="50" />
+    <field name="ResidentResidentfirstname" type="String" readOnly="true" label="Resident Residentfirstname" length="50" />
+    <field name="ResidentResidentlastname" type="String" readOnly="true" label="Resident Residentlastname" length="50" />
+    <field name="woItemUnitDetails" type="String" readOnly="true" label="Building - Unit" computed="true">
+      <formula>building.buildingName+' -('+unit.unitNumber+')'</formula>
+    </field>
+    <field name="woItemResidentFullName" type="String" readOnly="true" label="Resident Full Name" computed="true">
+      <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+    </field>
+    <field name="WoItemTransaction" type="DataView" label="Wo Item Transaction">
+      <dataView controller="WoItemTransaction" view="grid1" filterFields="WoItemID" />
+    </field>
+    <field name="WoItemAttachment" type="DataView" label="Wo Item Attachment">
+      <dataView controller="WoItemAttachment" view="grid1" filterFields="WoItemID" />
+    </field>
+    <field name="CurrentUserName" type="String" readOnly="true" label="Current User Name" computed="true" length="40">
+      <formula>@BusinessRules_UserName</formula>
+      <items style="UserNameLookup" />
+    </field>
+  </fields>
+  <views>
+    <view id="grid1" type="Grid" commandId="command1" label="Items">
+      <headerText />
+      <dataFields>
+        <dataField fieldName="Details" />
+        <dataField fieldName="CurrentUserName" columns="40" hidden="true" />
+        <dataField fieldName="ScheduledDate" columns="20" />
+        <dataField fieldName="WoID" aliasFieldName="WoID" textMode="Text" />
+        <dataField fieldName="BuildingBuildingname" />
+        <dataField fieldName="UnitUnitnumber" columns="5" />
+        <dataField fieldName="woItemResidentFullName" />
+        <dataField fieldName="woAssignedto" columns="50" hidden="true" />
+        <dataField fieldName="Status" columns="10" />
+        <dataField fieldName="Priority" columns="15" />
+        <dataField fieldName="Comment" rows="5" hidden="true" />
+        <dataField fieldName="AssignedTo" columns="50" />
+        <dataField fieldName="AssignedDate" columns="20" hidden="true" />
+        <dataField fieldName="CompletedDate" columns="20" hidden="true" />
+        <dataField fieldName="CompletedBy" columns="50" hidden="true" />
+        <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="UpdateBy" columns="50" hidden="true" />
+        <dataField fieldName="UpdateDate" columns="20" hidden="true" />
+      </dataFields>
+      <overrideWhen />
+      <styles>
+        <expression type="ClientScript" result="inProgress" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'I'" />
+        <expression type="ClientScript" result="Resolved" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'R'" />
+        <expression type="ClientScript" result="closed" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'C'" />
+        <expression type="ClientScript" result="waiting" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'W'" />
+        <expression type="ClientScript" result="Hold" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'H'" />
+        <expression type="ClientScript" result="New" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'N'" />
+      </styles>
+    </view>
+    <view id="editForm1" type="Form" commandId="command1" label="Review Ticket Item" tags="modal-max-any">
+      <headerText />
+      <categories>
+        <category headerText="Activity" id="c2" flow="NewColumn">
+          <dataFields>
+            <dataField fieldName="WoItemTransaction" columns="15" />
+          </dataFields>
+        </category>
+        <category headerText="Attachments" id="c3">
+          <dataFields>
+            <dataField fieldName="WoItemAttachment" columns="15" />
+          </dataFields>
+        </category>
+        <category id="c1" headerText="Ticket Item">
+          <description />
+          <dataFields>
+            <dataField fieldName="WoID" aliasFieldName="Wostatus" hidden="true" />
+            <dataField fieldName="BuildingBuildingname" />
+            <dataField fieldName="UnitUnitnumber" columns="5" />
+            <dataField fieldName="woItemResidentFullName" />
+            <dataField fieldName="Status" columns="1" />
+            <dataField fieldName="Priority" columns="15" />
+            <dataField fieldName="Details" />
+            <dataField fieldName="ScheduledDate" columns="20" />
+            <dataField fieldName="Comment" rows="5" />
+            <dataField fieldName="AssignedTo" columns="50" tag="lookup-details-hidden" />
+          </dataFields>
+        </category>
+        <category headerText="Audit Trail" id="c4">
+          <dataFields>
+            <dataField fieldName="AssignedDate" columns="20" textMode="Static" />
+            <dataField fieldName="CompletedDate" columns="20" />
+            <dataField fieldName="CompletedBy" columns="50" />
+            <dataField fieldName="CreatedBy" columns="50" textMode="Static" tag="lookup-details-hidden" />
+            <dataField fieldName="CreatedDate" columns="20" textMode="Static" />
+            <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden" />
+            <dataField fieldName="UpdateDate" columns="20" textMode="Static" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+    <view id="createForm1" type="Form" commandId="command1" label="New Item" tags="modal-max-any">
+      <headerText />
+      <categories>
+        <category id="c1" headerText="New Work Item" flow="NewColumn">
+          <description />
+          <dataFields>
+            <dataField fieldName="WoID" aliasFieldName="Wostatus" hidden="true" />
+            <dataField fieldName="Details" />
+            <dataField fieldName="Status" columns="1" textMode="Static" />
+            <dataField fieldName="Priority" columns="15" />
+            <dataField fieldName="ScheduledDate" columns="20" />
+            <dataField fieldName="Comment" rows="5" />
+            <dataField fieldName="AssignedTo" columns="50" />
+            <dataField fieldName="AssignedDate" columns="20" hidden="true" />
+            <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+    <view id="v100" type="Grid" commandId="command1" label="Planned Items" virtualViewId="grid1" filter="woAssignedto = 'Planned'">
+      <headerText />
+      <dataFields>
+        <dataField fieldName="Details" />
+        <dataField fieldName="CurrentUserName" columns="40" hidden="true" />
+        <dataField fieldName="ScheduledDate" columns="20" />
+        <dataField fieldName="WoID" aliasFieldName="WoID" textMode="Text" />
+        <dataField fieldName="BuildingBuildingname" />
+        <dataField fieldName="UnitUnitnumber" columns="5" />
+        <dataField fieldName="woItemResidentFullName" />
+        <dataField fieldName="woAssignedto" columns="50" hidden="true" />
+        <dataField fieldName="Status" columns="10" />
+        <dataField fieldName="Priority" columns="15" />
+        <dataField fieldName="Comment" rows="5" hidden="true" />
+        <dataField fieldName="AssignedTo" columns="50" />
+        <dataField fieldName="AssignedDate" columns="20" hidden="true" />
+        <dataField fieldName="CompletedDate" columns="20" hidden="true" />
+        <dataField fieldName="CompletedBy" columns="50" hidden="true" />
+        <dataField fieldName="CreatedBy" columns="50" hidden="true" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="UpdateBy" columns="50" hidden="true" />
+        <dataField fieldName="UpdateDate" columns="20" hidden="true" />
+      </dataFields>
+      <overrideWhen>Context.User.IsInRole("Planned")</overrideWhen>
+      <styles>
+        <expression type="ClientScript" result="inProgress" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'I'" />
+        <expression type="ClientScript" result="Resolved" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'R'" />
+        <expression type="ClientScript" result="closed" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'C'" />
+        <expression type="ClientScript" result="waiting" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'W'" />
+        <expression type="ClientScript" result="Hold" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'H'" />
+        <expression type="ClientScript" result="New" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'N'" />
+      </styles>
+    </view>
+  </views>
+  <actions>
+    <actionGroup id="ag1" scope="Grid">
+      <action id="a1" commandName="Select" commandArgument="editForm1" />
+      <action id="a2" commandName="Edit" />
+      <action id="a3" commandName="Delete" roles="Administrators,Silvershore" />
+      <action id="a6" />
+      <action id="a7" commandName="New" commandArgument="grid1" />
+      <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+      <action commandName="Custom" commandArgument="InProgressWo" headerText="In-Progress" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'I'" id="a101" cssClass="material-icon-play-circle-outline" />
+      <action commandName="Custom" commandArgument="ResolveWo" headerText="Resolved" whenClientScript="$row.Status == 'I'" id="a103" cssClass="material-icon-assignment-turned-in" />
+      <action commandName="Custom" commandArgument="CloseWo" headerText="Close" whenClientScript="$row.Status == 'R'" id="a100" cssClass="material-icon-archive" />
+      <action commandName="Custom" commandArgument="HoldWo" headerText="On Hold" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'H'" id="a102" cssClass="material-icon-pause-circle-outline" />
+    </actionGroup>
+    <actionGroup id="ag2" scope="Form">
+      <action id="a1" commandName="Edit" />
+      <action id="a2" commandName="Delete" roles="Administrators,Silvershore" />
+      <action id="a3" commandName="Cancel" />
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+      <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+      <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+      <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+      <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+      <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+      <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+    </actionGroup>
+    <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+      <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+    </actionGroup>
+    <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+      <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" whenClientScript="$row.Status != 'C'" />
+      <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" whenClientScript="$row.Status != 'C'" roles="Administrators,Silvershore" />
+    </actionGroup>
+    <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+      <action id="a1" commandName="ExportCsv" />
+      <action id="a2" />
+      <action id="a3" commandName="ExportRowset" />
+      <action id="a4" commandName="ExportRss" />
+      <action id="a5" />
+      <action id="a6" commandName="Import" commandArgument="createForm1" />
+      <action id="a7" commandName="DataSheet" />
+      <action id="a8" commandName="Grid" />
+    </actionGroup>
+    <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+      <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a3" whenLastCommandName="New" commandName="Insert" />
+      <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+    <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+      <action id="a1" commandName="ReportAsPdf" roles="Administrators" />
+      <action id="a2" commandName="ReportAsImage" roles="Administrators" />
+      <action id="a3" commandName="ReportAsExcel" roles="Administrators" />
+      <action id="a4" commandName="ReportAsWord" roles="Administrators" />
+    </actionGroup>
+    <actionGroup id="ag8" scope="Row">
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" />
+      <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+  </actions>
+  <businessRules>
+    <rule id="r100" commandName="Insert" type="Sql" phase="Before"><![CDATA[SET @CreatedBy = @BusinessRules_UserName]]></rule>
+    <rule id="r101" commandName="Custom" commandArgument="HoldWo" type="Sql" phase="Execute"><![CDATA[UPDATE WoItem
+SET [status] = 'H'
+where woItemId = @WoItemID]]></rule>
+    <rule id="r102" commandName="Custom" commandArgument="InProgressWo" type="Sql" phase="Execute"><![CDATA[UPDATE WoItem
+SET [status] = 'I', [CompletedDate] = null, CompletedBy = null
+where woItemId = @WoItemID]]></rule>
+    <rule id="r103" commandName="Custom" commandArgument="CloseWo" type="Sql" phase="Execute"><![CDATA[UPDATE WoItem
+SET [status] = 'C'
+where woItemId = @WoItemID]]></rule>
+    <rule id="r104" commandName="Custom" commandArgument="ResolveWo" type="Sql" phase="Execute"><![CDATA[UPDATE WoItem
+SET [status] = 'R', [CompletedDate] = getdate(), CompletedBy = @BusinessRules_UserName
+where woItemId = @WoItemID]]></rule>
+    <rule id="r105" commandName="Calculate|Insert|Update" type="Sql" phase="Before"><![CDATA[set @AssignedDate = getdate()]]></rule>
+  </businessRules>
+</dataController>

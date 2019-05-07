@@ -1,0 +1,2571 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataControllerCollection xmlns="urn:schemas-codeontime-com:data-aquarium" snapshot="true">
+  <dataController name="Building" conflictDetection="overwriteChanges" label="Building" nativeSchema="dbo" nativeTableName="building">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"building"."buildingId" "BuildingID"
+	,"building"."buildingNumber" "BuildingNumber"
+	,"building"."buildingAddress" "BuildingAddress"
+	,"building"."buildingZipcode" "BuildingZipcode"
+	,"building"."buildingState" "BuildingState"
+	,"building"."createdDate" "CreatedDate"
+	,"building"."createdBy" "CreatedBy"
+	,"building"."buildingName" "BuildingName"
+	,"building"."buildingCity" "BuildingCity"
+	,"building"."updateBy" "UpdateBy"
+	,"building"."updateDate" "UpdateDate"
+	,"building"."voiceMessage" "VoiceMessage"
+from "dbo"."building" "building"
+]]></text>
+      </command>
+      <command id="buildingIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="buildingId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="BuildingID" type="Int32" allowNulls="false" isPrimaryKey="true" label="building Id" readOnly="true" />
+      <field name="BuildingNumber" type="String" label="Building Number" length="5" showInSummary="true" allowNulls="false" />
+      <field name="BuildingAddress" type="String" label="Address" length="150" showInSummary="true" />
+      <field name="BuildingZipcode" type="String" label="Zipcode" length="5" showInSummary="true" />
+      <field name="BuildingState" type="String" label="State" length="2" showInSummary="true" />
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" showInSummary="true" />
+      <field name="CreatedBy" type="String" label="Created By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="BuildingName" type="String" allowNulls="false" label="Building Name" length="150" />
+      <field name="BuildingCity" type="String" label="Building City" length="50" />
+      <field name="UpdateBy" type="String" label="Update By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+      <field name="VoiceMessage" type="String" allowQBE="false" allowSorting="false" label="Phone-In Message" />
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Building">
+        <headerText>$DefaultGridViewDescription</headerText>
+        <dataFields>
+          <dataField fieldName="BuildingName" />
+          <dataField fieldName="VoiceMessage" rows="5" />
+          <dataField fieldName="BuildingNumber" columns="5" />
+          <dataField fieldName="BuildingAddress" />
+          <dataField fieldName="BuildingCity" columns="50" />
+          <dataField fieldName="BuildingState" columns="2" />
+          <dataField fieldName="BuildingZipcode" columns="5" />
+          <dataField fieldName="CreatedDate" columns="20" />
+          <dataField fieldName="CreatedBy" columns="50" />
+          <dataField fieldName="UpdateBy" columns="50" />
+          <dataField fieldName="UpdateDate" columns="20" />
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Building">
+        <headerText>$DefaultEditViewDescription</headerText>
+        <categories>
+          <category id="c1" headerText="Building">
+            <description>$DefaultEditDescription</description>
+            <dataFields>
+              <dataField fieldName="BuildingName" />
+              <dataField fieldName="VoiceMessage" rows="5" />
+              <dataField fieldName="BuildingNumber" columns="5" />
+              <dataField fieldName="BuildingAddress" />
+              <dataField fieldName="BuildingZipcode" columns="5" />
+              <dataField fieldName="BuildingCity" columns="50" />
+              <dataField fieldName="BuildingState" columns="2" />
+            </dataFields>
+          </category>
+          <category headerText="Audit Trail" id="c2">
+            <dataFields>
+              <dataField fieldName="CreatedBy" columns="50" textMode="Static">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Building">
+        <headerText>$DefaultCreateViewDescription</headerText>
+        <categories>
+          <category id="c1" headerText="New Building">
+            <description>$DefaultNewDescription</description>
+            <dataFields>
+              <dataField fieldName="BuildingName" />
+              <dataField fieldName="BuildingNumber" columns="5" />
+              <dataField fieldName="BuildingAddress" />
+              <dataField fieldName="BuildingZipcode" columns="5" />
+              <dataField fieldName="BuildingCity" columns="50" />
+              <dataField fieldName="BuildingState" columns="2" />
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" />
+        <action id="a3" commandName="Delete" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" />
+        <action id="a2" commandName="Delete" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" />
+        <action id="a4" commandName="ExportRss" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" />
+        <action id="a7" commandName="DataSheet" />
+        <action id="a8" commandName="Grid" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" />
+        <action id="a2" commandName="ReportAsImage" />
+        <action id="a3" commandName="ReportAsExcel" />
+        <action id="a4" commandName="ReportAsWord" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="Resident" conflictDetection="overwriteChanges" label="Resident" nativeSchema="dbo" nativeTableName="resident">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"resident"."residentId" "ResidentID"
+	,"resident"."unitId" "UnitID"
+	,"unit"."unitNumber" "UnitunitNumber"
+	,"unitbuilding"."buildingNumber" "UnitbuildingbuildingNumber"
+	,"resident"."residentFirstName" "ResidentFirstName"
+	,"resident"."residentLastName" "ResidentLastName"
+	,"resident"."residentPhoneNumber" "ResidentPhoneNumber"
+	,"resident"."residentEmail" "ResidentEmail"
+	,"resident"."isActive" "IsActive"
+	,"resident"."comment" "Comment"
+	,"resident"."createdBy" "CreatedBy"
+	,"resident"."createdDate" "CreatedDate"
+	,"resident"."residentPrefix" "ResidentPrefix"
+	,"resident"."updateBy" "UpdateBy"
+	,"resident"."updateDate" "UpdateDate"
+from "dbo"."resident" "resident"
+	left join "dbo"."unit" "unit" on "resident"."unitId" = "unit"."unitId"
+	left join "dbo"."building" "unitbuilding" on "unit"."buildingId" = "unitbuilding"."buildingId"
+]]></text>
+      </command>
+      <command id="residentIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="residentId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="ResidentID" type="Int32" allowNulls="false" isPrimaryKey="true" label="resident Id" readOnly="true" />
+      <field name="UnitID" type="Int32" label="unit Id" showInSummary="true">
+        <items style="Lookup" dataController="Unit" newDataView="createForm1" dataValueField="UnitID" dataTextField="UnitNumber" copy="UnitbuildingbuildingNumber=BuildingUnitbuildingNumber" />
+      </field>
+      <field name="UnitunitNumber" type="String" readOnly="true" label="Unit Number" length="5" />
+      <field name="UnitbuildingbuildingNumber" type="String" readOnly="true" label="Building Number" length="5" />
+      <field name="ResidentFirstName" type="String" label="First Name" length="50" showInSummary="true" />
+      <field name="ResidentLastName" type="String" label="Last Name" length="50" showInSummary="true" />
+      <field name="ResidentPhoneNumber" type="String" label="Phone Number" length="20" showInSummary="true" />
+      <field name="ResidentEmail" type="String" label="Email" length="50" showInSummary="true" />
+      <field name="IsActive" type="Boolean" label="Active" allowNulls="false">
+        <items style="CheckBox" />
+        <codeDefault>1</codeDefault>
+      </field>
+      <field name="Comment" type="String" allowQBE="false" allowSorting="false" label="Comment" />
+      <field name="CreatedBy" type="String" label="created By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" />
+      <field name="ResidentPrefix" type="String" label="Prefix" length="5">
+        <items style="DropDownList">
+          <item value="Mr" text="Mr." />
+          <item value="Mrs" text="Mrs." />
+        </items>
+      </field>
+      <field name="ResidentFullName" type="String" readOnly="true" label="Full Name" computed="true">
+        <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+      </field>
+      <field name="UpdateBy" type="String" label="Update By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Resident">
+        <headerText>$DefaultGridViewDescription</headerText>
+        <dataFields>
+          <dataField fieldName="UnitID" aliasFieldName="UnitunitNumber" />
+          <dataField fieldName="UnitbuildingbuildingNumber" columns="5" />
+          <dataField fieldName="ResidentFirstName" columns="50" />
+          <dataField fieldName="ResidentLastName" columns="50" />
+          <dataField fieldName="ResidentPhoneNumber" columns="20" />
+          <dataField fieldName="ResidentEmail" columns="50" />
+          <dataField fieldName="IsActive" />
+          <dataField fieldName="Comment" rows="5" />
+          <dataField fieldName="CreatedBy" columns="50" />
+          <dataField fieldName="CreatedDate" columns="20" />
+          <dataField fieldName="ResidentPrefix" columns="5" />
+          <dataField fieldName="ResidentFullName" />
+          <dataField fieldName="UpdateBy" columns="50" />
+          <dataField fieldName="UpdateDate" columns="20" />
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Resident">
+        <headerText>$DefaultEditViewDescription</headerText>
+        <categories>
+          <category id="c1" headerText="Resident">
+            <description>$DefaultEditDescription</description>
+            <dataFields>
+              <dataField fieldName="UnitID" aliasFieldName="UnitunitNumber" />
+              <dataField fieldName="UnitbuildingbuildingNumber" columns="5" />
+              <dataField fieldName="ResidentPrefix" columns="5" />
+              <dataField fieldName="ResidentFirstName" columns="50" />
+              <dataField fieldName="ResidentLastName" columns="50" />
+              <dataField fieldName="ResidentPhoneNumber" columns="20" />
+              <dataField fieldName="ResidentEmail" columns="50" />
+              <dataField fieldName="IsActive" />
+              <dataField fieldName="Comment" rows="5" />
+            </dataFields>
+          </category>
+          <category headerText="Audit Trail" id="c2">
+            <dataFields>
+              <dataField fieldName="CreatedBy" columns="50" textMode="Static">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Resident">
+        <headerText>$DefaultCreateViewDescription</headerText>
+        <categories>
+          <category id="c1" headerText="New Resident">
+            <description>$DefaultNewDescription</description>
+            <dataFields>
+              <dataField fieldName="UnitID" aliasFieldName="UnitunitNumber" />
+              <dataField fieldName="UnitbuildingbuildingNumber" columns="5" />
+              <dataField fieldName="ResidentPrefix" columns="5" />
+              <dataField fieldName="ResidentFirstName" columns="50" />
+              <dataField fieldName="ResidentLastName" columns="50" />
+              <dataField fieldName="ResidentPhoneNumber" columns="20" />
+              <dataField fieldName="ResidentEmail" columns="50" />
+              <dataField fieldName="IsActive" />
+              <dataField fieldName="Comment" rows="5" />
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" />
+        <action id="a3" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" roles="Administrators,Silvershore" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" roles="Administrators,Silvershore" />
+        <action id="a2" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" roles="Administrators,Silvershore" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" roles="Administrators,Silvershore" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" roles="Administrators,Silvershore" />
+        <action id="a4" commandName="ExportRss" roles="Administrators,Silvershore" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" roles="Administrators,Silvershore" />
+        <action id="a7" commandName="DataSheet" roles="Administrators,Silvershore" />
+        <action id="a8" commandName="Grid" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" roles="Administrators,Silvershore" />
+        <action id="a2" commandName="ReportAsImage" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="ReportAsExcel" roles="Administrators,Silvershore" />
+        <action id="a4" commandName="ReportAsWord" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="Unit" conflictDetection="overwriteChanges" label="Unit" nativeSchema="dbo" nativeTableName="unit">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"unit"."unitId" "UnitID"
+	,"unit"."buildingId" "BuildingID"
+	,"building"."buildingNumber" "BuildingUnitbuildingNumber"
+	,"unit"."unitNumber" "UnitNumber"
+	,"unit"."unitFloor" "UnitFloor"
+	,"unit"."createdBy" "CreatedBy"
+	,"unit"."createdDate" "CreatedDate"
+	,"unit"."updateDate" "UpdateDate"
+	,"unit"."updateBy" "UpdateBy"
+from "dbo"."unit" "unit"
+	left join "dbo"."building" "building" on "unit"."buildingId" = "building"."buildingId"
+]]></text>
+      </command>
+      <command id="unitIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="unitId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="UnitID" type="Int32" allowNulls="false" isPrimaryKey="true" label="unit Id" readOnly="true" />
+      <field name="BuildingID" type="Int32" allowNulls="false" label="building Id" showInSummary="true">
+        <items style="Lookup" dataController="Building" newDataView="createForm1" dataValueField="BuildingID" dataTextField="BuildingNumber" />
+      </field>
+      <field name="BuildingUnitbuildingNumber" type="String" readOnly="true" label="Building Number" length="5" />
+      <field name="UnitNumber" type="String" label="Unit Number" length="5" showInSummary="true" allowNulls="false" />
+      <field name="UnitFloor" type="Int32" label="Floor Number" showInSummary="true" />
+      <field name="CreatedBy" type="String" label="created By" length="50" showInSummary="true">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" showInSummary="true" />
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+      <field name="UpdateBy" type="String" label="Update By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Unit">
+        <headerText>$DefaultGridViewDescription</headerText>
+        <dataFields>
+          <dataField fieldName="BuildingID" aliasFieldName="BuildingUnitbuildingNumber" />
+          <dataField fieldName="UnitNumber" columns="5" />
+          <dataField fieldName="UnitFloor" columns="15" />
+          <dataField fieldName="CreatedBy" columns="50" textMode="Static">
+          </dataField>
+          <dataField fieldName="CreatedDate" columns="20" textMode="Static">
+          </dataField>
+          <dataField fieldName="UpdateDate" columns="20" />
+          <dataField fieldName="UpdateBy" columns="50" />
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Unit">
+        <headerText>$DefaultEditViewDescription</headerText>
+        <categories>
+          <category id="c1" headerText="Unit">
+            <description>$DefaultEditDescription</description>
+            <dataFields>
+              <dataField fieldName="BuildingID" aliasFieldName="BuildingUnitbuildingNumber" />
+              <dataField fieldName="UnitNumber" columns="5" />
+              <dataField fieldName="UnitFloor" columns="15" />
+            </dataFields>
+          </category>
+          <category headerText="Audit Trail" id="c2">
+            <dataFields>
+              <dataField fieldName="CreatedBy" columns="50" />
+              <dataField fieldName="CreatedDate" columns="20" />
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Unit">
+        <headerText>$DefaultCreateViewDescription</headerText>
+        <categories>
+          <category id="c1" headerText="New Unit">
+            <description>$DefaultNewDescription</description>
+            <dataFields>
+              <dataField fieldName="BuildingID" aliasFieldName="BuildingUnitbuildingNumber" />
+              <dataField fieldName="UnitNumber" columns="5" />
+              <dataField fieldName="UnitFloor" columns="15" />
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" roles="Administrators,Silvershore" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" roles="Administrators,Silvershore" />
+        <action id="a2" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" roles="Administrators,Silvershore" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" />
+        <action id="a4" commandName="ExportRss" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" />
+        <action id="a7" commandName="DataSheet" />
+        <action id="a8" commandName="Grid" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" />
+        <action id="a2" commandName="ReportAsImage" />
+        <action id="a3" commandName="ReportAsExcel" />
+        <action id="a4" commandName="ReportAsWord" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="Users" conflictDetection="overwriteChanges" label="Users" nativeSchema="dbo" nativeTableName="users">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"users"."userId" "UserID"
+	,"users"."userName" "UserName"
+	,"users"."group" "Group"
+	,"users"."firstName" "FirstName"
+	,"users"."lastName" "LastName"
+	,"users"."phoneNumber" "PhoneNumber"
+	,"users"."isActive" "IsActive"
+	,"users"."createdBy" "CreatedBy"
+	,"users"."createdDate" "CreatedDate"
+from "dbo"."users" "users"
+]]></text>
+      </command>
+      <command id="userIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="userId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="UserID" type="Int32" allowNulls="false" isPrimaryKey="true" label="user Id" readOnly="true" />
+      <field name="UserName" type="String" label="user Name" length="50" showInSummary="true" />
+      <field name="Group" type="String" label="Group" length="50" showInSummary="true" />
+      <field name="FirstName" type="String" label="first Name" length="50" showInSummary="true" />
+      <field name="LastName" type="String" label="last Name" length="50" showInSummary="true" />
+      <field name="PhoneNumber" type="String" label="phone Number" length="10" showInSummary="true" />
+      <field name="IsActive" type="Int32" default="((0))" label="is Active" />
+      <field name="CreatedBy" type="String" label="created By" length="50" />
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" />
+      <field name="userFullName" type="String" readOnly="true" label="User Full Name" computed="true">
+        <formula>users.lastName+', '+users.firstName</formula>
+      </field>
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Users" filter="Group = 'Planned'">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="UserName" columns="50" />
+          <dataField fieldName="Group" columns="50" />
+          <dataField fieldName="FirstName" columns="50" />
+          <dataField fieldName="LastName" columns="50" />
+          <dataField fieldName="PhoneNumber" columns="10" />
+          <dataField fieldName="IsActive" columns="15" />
+          <dataField fieldName="CreatedBy" columns="50" />
+          <dataField fieldName="CreatedDate" columns="20" />
+          <dataField fieldName="userFullName" />
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Users">
+        <headerText>$DefaultEditViewDescription</headerText>
+        <categories>
+          <category id="c1" headerText="Users">
+            <description>$DefaultEditDescription</description>
+            <dataFields>
+              <dataField fieldName="UserName" columns="50" />
+              <dataField fieldName="Group" columns="50" />
+              <dataField fieldName="FirstName" columns="50" />
+              <dataField fieldName="LastName" columns="50" />
+              <dataField fieldName="PhoneNumber" columns="10" />
+              <dataField fieldName="IsActive" columns="15" />
+              <dataField fieldName="CreatedBy" columns="50" />
+              <dataField fieldName="CreatedDate" columns="20" />
+              <dataField fieldName="userFullName" />
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Users">
+        <headerText>$DefaultCreateViewDescription</headerText>
+        <categories>
+          <category id="c1" headerText="New Users">
+            <description>$DefaultNewDescription</description>
+            <dataFields>
+              <dataField fieldName="UserName" columns="50" />
+              <dataField fieldName="Group" columns="50" />
+              <dataField fieldName="FirstName" columns="50" />
+              <dataField fieldName="LastName" columns="50" />
+              <dataField fieldName="PhoneNumber" columns="10" />
+              <dataField fieldName="IsActive" columns="15" />
+              <dataField fieldName="CreatedBy" columns="50" />
+              <dataField fieldName="CreatedDate" columns="20" />
+              <dataField fieldName="userFullName" />
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" />
+        <action id="a3" commandName="Delete" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" />
+        <action id="a2" commandName="Delete" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" />
+        <action id="a4" commandName="ExportRss" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" />
+        <action id="a7" commandName="DataSheet" />
+        <action id="a8" commandName="Grid" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" />
+        <action id="a2" commandName="ReportAsImage" />
+        <action id="a3" commandName="ReportAsExcel" />
+        <action id="a4" commandName="ReportAsWord" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+  </dataController>
+  <dataController name="Wo" conflictDetection="overwriteChanges" label="Wo" nativeSchema="dbo" nativeTableName="WO">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"WO"."woId" "WoID"
+	,"WO"."unitId" "UnitID"
+	,"unit"."unitNumber" "UnitWoUnitnumber"
+	,"WO"."buildingId" "BuildingID"
+	,"building"."buildingNumber" "BuildingWoBuildingnumber"
+	,"building"."buildingName" "BuildingBuildingname"
+	,"WO"."residentId" "ResidentID"
+	,"resident"."residentFirstName" "ResidentResidentfirstname"
+	,"resident"."residentLastName" "ResidentResidentlastname"
+	,"WO"."status" "Status"
+	,"WO"."priority" "Priority"
+	,"WO"."comment" "Comment"
+	,"WO"."contactName" "ContactName"
+	,"WO"."contactPhone" "ContactPhone"
+	,"WO"."reportedBy" "ReportedBy"
+	,"WO"."reportedThru" "ReportedThru"
+	,"WO"."completedDate" "CompletedDate"
+	,"WO"."createdBy" "CreatedBy"
+	,"WO"."createdDate" "CreatedDate"
+	,"WO"."assignedTo" "AssignedTo"
+	,"WO"."CompletionSignature" "CompletionSignature"
+	,"WO"."message" "Message"
+	,"WO"."problemDescription" "ProblemDescription"
+	,"WO"."contactEmail" "ContactEmail"
+	,"WO"."updateBy" "UpdateBy"
+	,"WO"."updateDate" "UpdateDate"
+	,"WO"."recordingurl" "Recordingurl"
+from "dbo"."WO" "WO"
+	left join "dbo"."unit" "unit" on "WO"."unitId" = "unit"."unitId"
+	left join "dbo"."building" "building" on "WO"."buildingId" = "building"."buildingId"
+	left join "dbo"."resident" "resident" on "WO"."residentId" = "resident"."residentId"
+]]></text>
+      </command>
+      <command id="woIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="woId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="WoID" type="Int32" allowNulls="false" isPrimaryKey="true" label="Ticket No" readOnly="true" />
+      <field name="ResidentID" type="Int32" label="resident Id" showInSummary="true" contextFields="UnitID=UnitID">
+        <items style="Lookup" dataController="Resident" dataValueField="ResidentID" dataTextField="ResidentFullName" copy="ContactName = ResidentFullName&#xD;&#xA;ContactPhone = ResidentPhoneNumber&#xD;&#xA;ContactEmail = ResidentEmail&#xD;&#xA;" />
+      </field>
+      <field name="UnitID" type="Int32" label="unit Id" showInSummary="true" contextFields="BuildingID = BuildingID">
+        <items style="Lookup" dataController="Unit" dataValueField="UnitID" dataTextField="UnitNumber" copy="ResidentID = null&#xD;&#xA;residentFullName = null" dataView="grid1" />
+      </field>
+      <field name="BuildingID" type="Int32" label="building Id" showInSummary="true">
+        <items style="Lookup" dataController="Building" dataValueField="BuildingID" dataTextField="BuildingName" copy="UnitID = null&#xD;&#xA;ResidentID = null" />
+      </field>
+      <field name="UnitWoUnitnumber" type="String" readOnly="true" label="Unit" length="25" writeRoles="Administrators,Silvershore" />
+      <field name="BuildingWoBuildingnumber" type="String" readOnly="true" label="Building" length="5" />
+      <field name="BuildingBuildingname" type="String" readOnly="true" label="Building" length="30" />
+      <field name="ResidentResidentfirstname" type="String" readOnly="true" label="Resident Name" length="50" />
+      <field name="ResidentResidentlastname" type="String" readOnly="true" label="Resident Residentlastname" length="50" />
+      <field name="Status" type="String" label="Status" length="1" showInSummary="true">
+        <items style="DropDownList">
+          <item value="N" text="New" />
+          <item value="P" text="Pending" />
+          <item value="I" text="In Progress" />
+          <item value="W" text="Waiting for Resident" />
+          <item value="H" text="On Hold" />
+          <item value="R" text="Resolved" />
+          <item value="C" text="Closed" />
+        </items>
+        <codeDefault>'N'</codeDefault>
+      </field>
+      <field name="Priority" type="Int32" label="Priority" showInSummary="true" allowNulls="false">
+        <items style="ListBox">
+          <item value="10" text="Very Low" />
+          <item value="20" text="Low" />
+          <item value="30" text="Normal" />
+          <item value="40" text="High" />
+          <item value="50" text="Very High" />
+          <item value="60" text="Urgent" />
+        </items>
+        <codeDefault>30</codeDefault>
+      </field>
+      <field name="Comment" type="String" allowQBE="false" allowSorting="false" label="Summary Comment" />
+      <field name="ContactName" type="String" label="Ticket Contact Name" length="50" />
+      <field name="ContactPhone" type="String" label="Ticket Contact Phone" length="50" />
+      <field name="ReportedBy" type="String" label="Reported By" length="30" writeRoles="Administrators,Silvershore">
+        <items style="ListBox">
+          <item value="Field" text="Field" />
+          <item value="OfficeStaff" text="Office Staff" />
+          <item value="Resident" text="Resident" />
+        </items>
+      </field>
+      <field name="ReportedThru" type="String" label="Reported Thru" length="30" allowNulls="false" writeRoles="Administrators,Silvershore">
+        <items style="ListBox">
+          <item value="Office" text="Office Phone" />
+          <item value="CallCenter" text="Call Center" />
+        </items>
+        <codeDefault>"Office"</codeDefault>
+      </field>
+      <field name="CompletedDate" type="DateTime" dataFormatString="g" label="Completed Date" />
+      <field name="CreatedBy" type="String" label="Created By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="Created Date" />
+      <field name="AssignedTo" type="String" label="Assigned To" length="50" writeRoles="Administrators,Silvershore">
+        <items style="ListBox">
+          <item value="Planned" text="Planned" />
+          <item value="Locksmith" text="Locksmith" />
+          <item value="HVAC" text="HVAC" />
+          <item value="Declined" text="Declined" />
+        </items>
+      </field>
+      <field name="CompletionSignature" type="Byte[]" onDemand="true" sourceFields="woId" onDemandHandler="WOCompletionSignature" onDemandStyle="Signature" allowQBE="false" allowSorting="false" label="Completion Signature" />
+      <field name="workorder" type="String" readOnly="true" label="Workorder" computed="true">
+        <formula>'('+WO.comment+')'</formula>
+      </field>
+      <field name="Message" type="String" allowQBE="false" allowSorting="false" label="Incoming Phone Message" writeRoles="Administrators,Silvershore" />
+      <field name="WoUnit" type="String" readOnly="true" label="Wo Unit" computed="true">
+        <formula>building.buildingName+' - ('+unit.unitNumber+')-('+resident.residentLastName+', '+resident.residentFirstName+')'</formula>
+      </field>
+      <field name="ProblemDescription" type="String" allowQBE="false" allowSorting="false" label="Problem Description" />
+      <field name="residentFullName" type="String" readOnly="true" label="Resident Full Name" computed="true">
+        <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+      </field>
+      <field name="ContactEmail" type="String" label="Ticket Contact Email" length="50" />
+      <field name="UpdateBy" type="String" label="Update By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+      <field name="assignedToOrg" type="String" readOnly="true" label="Assigned To Org" computed="true">
+        <formula>WO.assignedTo</formula>
+      </field>
+      <field name="Recordingurl" type="String" label="Recordingurl" length="250" />
+      <field name="WoNote" type="DataView" label="Wo Note">
+        <dataView controller="WoNote" filterFields="WoID" view="grid1" />
+      </field>
+      <field name="WoItem" type="DataView" label="Wo Item">
+        <dataView controller="WoItem" filterFields="WoID" view="grid1" />
+      </field>
+      <field name="CurrentUserName" type="String" readOnly="true" label="Current User Name" computed="true" length="40">
+        <formula>@BusinessRules_UserName</formula>
+        <items style="UserNameLookup" />
+      </field>
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="All Tickets">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="WoUnit" hidden="true">
+          </dataField>
+          <dataField fieldName="BuildingBuildingname">
+          </dataField>
+          <dataField fieldName="UnitWoUnitnumber" columns="25">
+          </dataField>
+          <dataField fieldName="WoID" columns="15" />
+          <dataField fieldName="ContactName" columns="30">
+          </dataField>
+          <dataField fieldName="ContactPhone" columns="20">
+          </dataField>
+          <dataField fieldName="ContactEmail" columns="50" />
+          <dataField fieldName="assignedToOrg" hidden="true">
+          </dataField>
+          <dataField fieldName="Recordingurl" hidden="true">
+          </dataField>
+          <dataField fieldName="Status" columns="10">
+          </dataField>
+          <dataField fieldName="Priority" columns="15" />
+          <dataField fieldName="AssignedTo" columns="20">
+          </dataField>
+          <dataField fieldName="residentFullName" hidden="true">
+          </dataField>
+          <dataField fieldName="ResidentID" columns="15" aliasFieldName="ResidentResidentfirstname" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateDate" columns="20" hidden="true">
+          </dataField>
+          <dataField fieldName="CreatedDate" columns="20">
+          </dataField>
+          <dataField fieldName="CreatedBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="workorder" hidden="true">
+          </dataField>
+          <dataField fieldName="ProblemDescription" rows="5" hidden="true">
+          </dataField>
+          <dataField fieldName="CurrentUserName" columns="40" hidden="true">
+          </dataField>
+        </dataFields>
+        <styles>
+          <expression type="ClientScript" result="Resolved" test="$row.Status =='R'" />
+          <expression type="ClientScript" result="closed" test="$row.Status  == 'C'" />
+          <expression type="ClientScript" result="Hold" test="$row.Status == 'H' " />
+          <expression type="ClientScript" result="inProgress" test="$row.Status == 'I'" />
+          <expression type="ClientScript" result="New" test="$row.Status == 'N'" />
+          <expression type="ClientScript" result="waiting" test="$row.Status == 'W'" />
+        </styles>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Ticket" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category headerText="Items" id="c2">
+            <dataFields>
+              <dataField fieldName="WoItem" columns="15" />
+            </dataFields>
+          </category>
+          <category headerText="Notes" id="c3" flow="NewColumn">
+            <dataFields>
+              <dataField fieldName="WoNote" columns="15" />
+            </dataFields>
+          </category>
+          <category headerText="Unit/Contact" id="c4" flow="NewRow">
+            <dataFields>
+              <dataField fieldName="BuildingID" aliasFieldName="BuildingBuildingname">
+              </dataField>
+              <dataField fieldName="UnitID" aliasFieldName="UnitWoUnitnumber" />
+              <dataField fieldName="ResidentID" aliasFieldName="residentFullName">
+              </dataField>
+              <dataField fieldName="ContactName" columns="50" />
+              <dataField fieldName="ContactPhone" columns="50" />
+              <dataField fieldName="ContactEmail" columns="50" />
+              <dataField fieldName="ReportedBy" columns="30" />
+              <dataField fieldName="ReportedThru" columns="30" />
+            </dataFields>
+          </category>
+          <category id="c1" headerText="Ticket" flow="NewColumn">
+            <description />
+            <dataFields>
+              <dataField fieldName="BuildingBuildingname" />
+              <dataField fieldName="AssignedTo" columns="50" />
+              <dataField fieldName="residentFullName" />
+              <dataField fieldName="Status" columns="1" textMode="Static">
+              </dataField>
+              <dataField fieldName="Priority" columns="15" />
+              <dataField fieldName="ProblemDescription" rows="5" />
+              <dataField fieldName="Message" rows="5" />
+              <dataField fieldName="Comment" rows="5" />
+              <dataField fieldName="CompletedDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="workorder" hidden="true">
+              </dataField>
+              <dataField fieldName="WoUnit" hidden="true">
+              </dataField>
+              <dataField fieldName="assignedToOrg" hidden="true">
+              </dataField>
+              <dataField fieldName="Recordingurl" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+          <category headerText="Completion Signature" id="c6" flow="NewRow">
+            <dataFields>
+              <dataField fieldName="CompletionSignature" columns="15" />
+            </dataFields>
+          </category>
+          <category headerText="Audit Trail" id="c5" flow="NewRow">
+            <dataFields>
+              <dataField fieldName="CreatedBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="CurrentUserName" columns="40" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New WorkOrder" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="New Ticket">
+            <description />
+            <dataFields>
+              <dataField fieldName="BuildingID" aliasFieldName="BuildingBuildingname">
+              </dataField>
+              <dataField fieldName="UnitID" aliasFieldName="UnitWoUnitnumber">
+              </dataField>
+              <dataField fieldName="ResidentID" columns="15" aliasFieldName="residentFullName">
+              </dataField>
+              <dataField fieldName="AssignedTo" columns="50" />
+              <dataField fieldName="Status" columns="1" hidden="true" textMode="Static">
+              </dataField>
+              <dataField fieldName="Priority" columns="15" />
+              <dataField fieldName="ProblemDescription" rows="5" />
+              <dataField fieldName="Message" rows="5" />
+              <dataField fieldName="Comment" rows="5" />
+              <dataField fieldName="ContactName" columns="50" />
+              <dataField fieldName="ContactPhone" columns="50" />
+              <dataField fieldName="ContactEmail" columns="50" />
+              <dataField fieldName="ReportedBy" columns="30" />
+              <dataField fieldName="ReportedThru" columns="30" hidden="true">
+              </dataField>
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="activeWo" type="Grid" commandId="command1" label="Open Tickets" filter="Status &lt;&gt; 'C'">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="WoUnit" hidden="true">
+          </dataField>
+          <dataField fieldName="BuildingBuildingname">
+          </dataField>
+          <dataField fieldName="UnitWoUnitnumber" columns="25">
+          </dataField>
+          <dataField fieldName="WoID" columns="15" />
+          <dataField fieldName="ContactName" columns="30">
+          </dataField>
+          <dataField fieldName="ContactPhone" columns="20">
+          </dataField>
+          <dataField fieldName="ContactEmail" columns="50" />
+          <dataField fieldName="assignedToOrg" hidden="true">
+          </dataField>
+          <dataField fieldName="Recordingurl" hidden="true">
+          </dataField>
+          <dataField fieldName="Status" columns="10">
+          </dataField>
+          <dataField fieldName="Priority" columns="15" />
+          <dataField fieldName="AssignedTo" columns="20">
+          </dataField>
+          <dataField fieldName="residentFullName" hidden="true">
+          </dataField>
+          <dataField fieldName="ResidentID" columns="15" aliasFieldName="ResidentResidentfirstname" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateDate" columns="20" hidden="true">
+          </dataField>
+          <dataField fieldName="CreatedBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="workorder" hidden="true">
+          </dataField>
+          <dataField fieldName="ProblemDescription" rows="5" hidden="true">
+          </dataField>
+          <dataField fieldName="CreatedDate" columns="20">
+          </dataField>
+          <dataField fieldName="CurrentUserName" columns="40" hidden="true">
+          </dataField>
+        </dataFields>
+        <styles>
+          <expression type="ClientScript" result="waiting" test="$row.Status == 'W'" />
+          <expression type="ClientScript" result="Resolved" test="$row.Status == 'R'" />
+          <expression type="ClientScript" result="New" test="$row.Status == 'N'" />
+          <expression type="ClientScript" result="inProgress " test="$row.Status == 'I'" />
+          <expression type="ClientScript" result="Hold " test="$row.Status == 'H'" />
+          <expression type="ClientScript" result="closed" test="$row.Status == 'C'" />
+        </styles>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" whenClientScript="$row.Status != 'C'" />
+        <action id="a3" commandName="Delete" roles="Administrators,Silvershore" whenClientScript="$row.Status != 'C'" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" roles="Administrators,Silvershore" />
+        <action commandName="Custom" commandArgument="InProgressWo" headerText="In-Progress" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'I'" id="a101" cssClass="material-icon-play-circle-outline" />
+        <action commandName="Custom" commandArgument="ResolveWo" headerText="Resolved" whenClientScript="$row.Status == 'I'" id="a103" cssClass="material-icon-assignment-turned-in" />
+        <action commandName="Custom" commandArgument="CloseWo" headerText="Close" whenClientScript="$row.Status == 'R'" id="a100" cssClass="material-icon-archive" roles="Administrators,Silvershore" />
+        <action commandName="Custom" commandArgument="HoldWo" headerText="On Hold" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'H'" id="a102" cssClass="material-icon-pause-circle-outline" />
+        <action commandName="Custom" commandArgument="WaitingResidentWo" headerText="Waiting for Resident" whenClientScript="$row.Status != 'C'" id="a104" cssClass="material-icon-hourglass-full" />
+        <action commandName="Custom" commandArgument="PlayMSG" headerText="Play Voice Message" id="a105" cssClass="material-icon-volume-up" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" whenClientScript="$row.Status != 'C'" />
+        <action id="a2" commandName="Delete" roles="Administrators,Silvershore" whenClientScript="$row.Status != 'C'" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+        <action commandName="Custom" commandArgument="InProgressWo" headerText="In-Progress" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'I'" id="a101" cssClass="material-icon-play-circle-outline" />
+        <action commandName="Custom" commandArgument="ResolveWo" headerText="Resolved" whenClientScript="$row.Status == 'I'" id="a103" cssClass="material-icon-assignment-turned-in" />
+        <action commandName="Custom" commandArgument="CloseWo" headerText="Close" whenClientScript="$row.Status == 'R'" id="a100" cssClass="material-icon-archive" roles="Administrators,Silvershore" />
+        <action commandName="Custom" commandArgument="HoldWo" headerText="On Hold" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'H'" id="a102" cssClass="material-icon-pause-circle-outline" />
+        <action commandName="Custom" commandArgument="WaitingResidentWo" headerText="Waiting for Resident" whenClientScript="$row.Status != 'C'" id="a104" cssClass="material-icon-record-voice-over" />
+        <action commandName="Custom" commandArgument="PlayMSG" headerText="Play Voice Message" id="a105" cssClass="material-icon-volume-up" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" whenClientScript="$row.Status != 'C'" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" roles="Administrators,Silvershore" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" roles="Administrators,Silvershore" />
+        <action id="a4" commandName="ExportRss" roles="Administrators,Silvershore" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" roles="Administrators,Silvershore" />
+        <action id="a7" commandName="DataSheet" roles="Administrators,Silvershore" />
+        <action id="a8" commandName="Grid" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" roles="Administrators" />
+        <action id="a2" commandName="ReportAsImage" roles="Administrators" />
+        <action id="a3" commandName="ReportAsExcel" roles="Administrators" />
+        <action id="a4" commandName="ReportAsWord" roles="Administrators" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+      <rule id="r101" commandName="Custom" commandArgument="HoldWo" type="Sql" phase="Execute">UPDATE WO
+SET [status] = 'H'
+where woId = @WoID</rule>
+      <rule id="r102" commandName="Custom" commandArgument="InProgressWo" type="Sql" phase="Execute">UPDATE WO
+SET [status] = 'I'
+where woId = @WoID</rule>
+      <rule id="r103" commandName="Custom" commandArgument="CloseWo" type="Sql" phase="Execute">UPDATE WO
+SET [status] = 'C', [CompletedDate] = getdate()
+where woId = @WoID</rule>
+      <rule id="r104" commandName="Custom" commandArgument="ResolveWo" type="Sql" phase="Execute">UPDATE WO
+SET [status] = 'R'
+where woId = @WoID</rule>
+      <rule id="r105" commandName="Custom" commandArgument="WaitingResidentWo" type="Sql" phase="Execute">UPDATE WO
+SET [status] = 'W'
+where woId = @WoID</rule>
+      <rule id="r106" commandName="Insert|Update" type="JavaScript" phase="Before">if ([AssignedTo] == 'Planned' &amp;&amp; [assignedToOrg] != 'Planned'){
+	console.log([AssignedTo]+' '+[assignedToOrg]);
+  	var message = "Unit: "+[WoUnit]+"{lf}Contact Name: "+[ContactName]+" {lf}Contact Number: "+[ContactPhone]+" {lf}Problem: "+[ProblemDescription];
+  	$.post("http://cp.planned.co/text.cfm", {message: message}, function(result){
+        
+    });
+}
+</rule>
+      <rule id="r107" commandName="Custom" commandArgument="PlayMSG" type="JavaScript" phase="Before">var recordingurl = [Recordingurl] ;
+window.open(recordingurl, "_blank");
+this.preventDefault();</rule>
+      <rule id="r108" commandName="Custom" commandArgument="ResolveWo" type="JavaScript" phase="After">console.log('resolved');
+var woid = [WoID];
+var username = [CurrentUserName];
+var status = 'Resolved';
+var updateDate = new Date();
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", 
+   {method: 'sendWoStatus', updateBy: username, WOId: woid, status: status, updatedDate: updateDate }, 
+   function(result){    
+});</rule>
+      <rule id="r109" commandName="Custom" commandArgument="HoldWo" type="JavaScript" phase="After">console.log('OnHold');
+var woid = [WoID];
+var username = [CurrentUserName];
+var status = 'On Hold';
+var updateDate = new Date();
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", 
+   {method: 'sendWoStatus', updateBy: username, WOId: woid, status: status, updatedDate: updateDate }, 
+   function(result){    
+});</rule>
+      <rule id="r110" commandName="Custom" commandArgument="InProgressWo" type="JavaScript" phase="After">console.log('InProgress');
+var woid = [WoID];
+var username = [CurrentUserName];
+var status = 'In Progress';
+var updateDate = new Date();
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", 
+   {method: 'sendWoStatus', updateBy: username, WOId: woid, status: status, updatedDate: updateDate }, 
+   function(result){    
+});</rule>
+      <rule id="r111" commandName="Custom" commandArgument="WaitingResidentWo" type="JavaScript" phase="After">console.log('Waiting');
+var woid = [WoID];
+var username = [CurrentUserName];
+var status = 'Waiting for resident';
+var updateDate = new Date();
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", 
+   {method: 'sendWoStatus', updateBy: username, WOId: woid, status: status, updatedDate: updateDate }, 
+   function(result){    
+});</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="WoItem" conflictDetection="overwriteChanges" label="Wo Item" nativeSchema="dbo" nativeTableName="woItem">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"woItem"."woItemId" "WoItemID"
+	,"woItem"."woId" "WoID"
+	,"wo"."status" "Wostatus"
+	,"wo"."assignedTo" "woAssignedto"
+	,"woItem"."status" "Status"
+	,"woItem"."priority" "Priority"
+	,"woItem"."details" "Details"
+	,"woItem"."comment" "Comment"
+	,"woItem"."assignedTo" "AssignedTo"
+	,"woItem"."completedDate" "CompletedDate"
+	,"woItem"."completedBy" "CompletedBy"
+	,"woItem"."createdBy" "CreatedBy"
+	,"woItem"."createdDate" "CreatedDate"
+	,"woItem"."updateBy" "UpdateBy"
+	,"woItem"."updateDate" "UpdateDate"
+	,"woItem"."assignedDate" "AssignedDate"
+	,"woItem"."scheduledDate" "ScheduledDate"
+	,"unit"."unitNumber" "UnitUnitnumber"
+	,"building"."buildingName" "BuildingBuildingname"
+	,"resident"."residentFirstName" "ResidentResidentfirstname"
+	,"resident"."residentLastName" "ResidentResidentlastname"
+from "dbo"."woItem" "woItem"
+	left join "dbo"."WO" "wo" on "woItem"."woId" = "wo"."woId"
+	left join "dbo"."unit" "unit" on "wo"."unitId" = "unit"."unitId"
+	left join "dbo"."building" "building" on "wo"."buildingId" = "building"."buildingId"
+	left join "dbo"."resident" "resident" on "wo"."residentId" = "resident"."residentId"
+]]></text>
+      </command>
+      <command id="woItemIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="woItemId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="WoItemID" type="Int32" allowNulls="false" isPrimaryKey="true" label="wo Item Id" readOnly="true" />
+      <field name="WoID" type="Int32" allowNulls="false" label="wo Id" showInSummary="true">
+        <items style="Lookup" dataController="Wo" newDataView="createForm1" dataValueField="WoID" dataTextField="WoUnit" copy="woAssignedto=AssignedTo, UnitUnitnumber=UnitWoUnitnumber, BuildingBuildingname=BuildingBuildingname, ResidentResidentfirstname=ResidentResidentfirstname, ResidentResidentlastname=ResidentResidentlastname" />
+      </field>
+      <field name="Wostatus" type="String" readOnly="true" label="Wostatus" length="1">
+        <items style="DropDownList">
+          <item value="N" text="New" />
+          <item value="P" text="Pending" />
+          <item value="I" text="In Progress" />
+          <item value="W" text="Waiting for Reaident" />
+          <item value="H" text="On Hold" />
+          <item value="R" text="Resolved" />
+          <item value="C" text="Closed" />
+        </items>
+      </field>
+      <field name="woAssignedto" type="String" readOnly="true" label="wo Assignedto" length="50" />
+      <field name="Status" type="String" allowNulls="false" label="Status" length="1" showInSummary="true">
+        <items style="DropDownList">
+          <item value="N" text="New" />
+          <item value="P" text="Pending" />
+          <item value="I" text="In Progress" />
+          <item value="W" text="Waiting for Resident" />
+          <item value="H" text="On Hold" />
+          <item value="R" text="Resolved" />
+          <item value="C" text="Closed" />
+        </items>
+        <codeDefault>'N'</codeDefault>
+      </field>
+      <field name="Priority" type="Int32" label="Priority" showInSummary="true" allowNulls="false">
+        <items style="ListBox">
+          <item value="10" text="Very Low" />
+          <item value="20" text="Low" />
+          <item value="30" text="Normal" />
+          <item value="40" text="High" />
+          <item value="50" text="Very High" />
+          <item value="60" text="Urgent" />
+        </items>
+        <codeDefault>30</codeDefault>
+      </field>
+      <field name="Details" type="String" allowNulls="false" label="Details" length="100" showInSummary="true" />
+      <field name="Comment" type="String" allowQBE="false" allowSorting="false" label="Comment" showInSummary="true" />
+      <field name="AssignedTo" type="String" label="assigned To" length="50">
+        <items style="RadioButtonList" dataController="Users" dataView="grid1" dataTextField="userFullName" dataValueField="UserName" />
+      </field>
+      <field name="CompletedDate" type="DateTime" dataFormatString="g" label="completed Date" />
+      <field name="CompletedBy" type="String" label="completed By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedBy" type="String" label="created By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" />
+      <field name="UpdateBy" type="String" label="Update By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+      <field name="AssignedDate" type="DateTime" dataFormatString="g" label="Assigned Date" />
+      <field name="ScheduledDate" type="DateTime" dataFormatString="g" label="Scheduled Date" causesCalculate="true" />
+      <field name="UnitUnitnumber" type="String" readOnly="true" label="Unit" length="25" />
+      <field name="BuildingBuildingname" type="String" readOnly="true" label="Building" length="50" />
+      <field name="ResidentResidentfirstname" type="String" readOnly="true" label="Resident Residentfirstname" length="50" />
+      <field name="ResidentResidentlastname" type="String" readOnly="true" label="Resident Residentlastname" length="50" />
+      <field name="woItemUnitDetails" type="String" readOnly="true" label="Building - Unit" computed="true">
+        <formula>building.buildingName+' -('+unit.unitNumber+')'</formula>
+      </field>
+      <field name="woItemResidentFullName" type="String" readOnly="true" label="Resident Full Name" computed="true">
+        <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+      </field>
+      <field name="WoItemTransaction" type="DataView" label="Wo Item Transaction">
+        <dataView controller="WoItemTransaction" filterFields="WoItemID" view="grid1" />
+      </field>
+      <field name="WoItemAttachment" type="DataView" label="Wo Item Attachment">
+        <dataView controller="WoItemAttachment" filterFields="WoItemID" view="grid1" />
+      </field>
+      <field name="CurrentUserName" type="String" readOnly="true" label="Current User Name" computed="true" length="40">
+        <formula>@BusinessRules_UserName</formula>
+        <items style="UserNameLookup" />
+      </field>
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Items">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="Details" />
+          <dataField fieldName="CurrentUserName" columns="40" hidden="true">
+          </dataField>
+          <dataField fieldName="ScheduledDate" columns="20" />
+          <dataField fieldName="WoID" aliasFieldName="WoID" textMode="Text">
+          </dataField>
+          <dataField fieldName="BuildingBuildingname" />
+          <dataField fieldName="UnitUnitnumber" columns="5" />
+          <dataField fieldName="woItemResidentFullName" />
+          <dataField fieldName="woAssignedto" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="Status" columns="10">
+          </dataField>
+          <dataField fieldName="Priority" columns="15" />
+          <dataField fieldName="Comment" rows="5" hidden="true">
+          </dataField>
+          <dataField fieldName="AssignedTo" columns="50" />
+          <dataField fieldName="AssignedDate" columns="20" hidden="true">
+          </dataField>
+          <dataField fieldName="CompletedDate" columns="20" hidden="true">
+          </dataField>
+          <dataField fieldName="CompletedBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="CreatedBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="CreatedDate" columns="20">
+          </dataField>
+          <dataField fieldName="UpdateBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateDate" columns="20" hidden="true">
+          </dataField>
+        </dataFields>
+        <overrideWhen />
+        <styles>
+          <expression type="ClientScript" result="inProgress" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'I'" />
+          <expression type="ClientScript" result="Resolved" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'R'" />
+          <expression type="ClientScript" result="closed" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'C'" />
+          <expression type="ClientScript" result="waiting" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'W'" />
+          <expression type="ClientScript" result="Hold" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'H'" />
+          <expression type="ClientScript" result="New" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'N'" />
+        </styles>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Ticket Item" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category headerText="Activity" id="c2">
+            <dataFields>
+              <dataField fieldName="WoItemTransaction" columns="15" />
+            </dataFields>
+          </category>
+          <category headerText="Attachments" id="c3">
+            <dataFields>
+              <dataField fieldName="WoItemAttachment" columns="15" />
+            </dataFields>
+          </category>
+          <category id="c1" headerText="Ticket Item">
+            <description />
+            <dataFields>
+              <dataField fieldName="WoID" aliasFieldName="Wostatus" hidden="true">
+              </dataField>
+              <dataField fieldName="BuildingBuildingname" />
+              <dataField fieldName="UnitUnitnumber" columns="5" />
+              <dataField fieldName="woItemResidentFullName" />
+              <dataField fieldName="Status" columns="1" />
+              <dataField fieldName="Priority" columns="15" />
+              <dataField fieldName="Details" />
+              <dataField fieldName="ScheduledDate" columns="20" />
+              <dataField fieldName="Comment" rows="5" />
+              <dataField fieldName="AssignedTo" columns="50" tag="lookup-details-hidden">
+              </dataField>
+            </dataFields>
+          </category>
+          <category headerText="Audit Trail" id="c4">
+            <dataFields>
+              <dataField fieldName="AssignedDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="CompletedDate" columns="20" />
+              <dataField fieldName="CompletedBy" columns="50" />
+              <dataField fieldName="CreatedBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Item" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="New Work Item">
+            <description />
+            <dataFields>
+              <dataField fieldName="WoID" aliasFieldName="Wostatus" hidden="true">
+              </dataField>
+              <dataField fieldName="Details" />
+              <dataField fieldName="Status" columns="1" textMode="Static">
+              </dataField>
+              <dataField fieldName="Priority" columns="15" />
+              <dataField fieldName="ScheduledDate" columns="20" />
+              <dataField fieldName="Comment" rows="5" />
+              <dataField fieldName="AssignedTo" columns="50" />
+              <dataField fieldName="AssignedDate" columns="20" hidden="true">
+              </dataField>
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="v100" type="Grid" commandId="command1" label="Planned Items" virtualViewId="grid1" filter="woAssignedto = 'Planned'">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="Details" />
+          <dataField fieldName="CurrentUserName" columns="40" hidden="true">
+          </dataField>
+          <dataField fieldName="ScheduledDate" columns="20" />
+          <dataField fieldName="WoID" aliasFieldName="WoID" textMode="Text">
+          </dataField>
+          <dataField fieldName="BuildingBuildingname" />
+          <dataField fieldName="UnitUnitnumber" columns="5" />
+          <dataField fieldName="woItemResidentFullName" />
+          <dataField fieldName="woAssignedto" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="Status" columns="10">
+          </dataField>
+          <dataField fieldName="Priority" columns="15" />
+          <dataField fieldName="Comment" rows="5" hidden="true">
+          </dataField>
+          <dataField fieldName="AssignedTo" columns="50" />
+          <dataField fieldName="AssignedDate" columns="20" hidden="true">
+          </dataField>
+          <dataField fieldName="CompletedDate" columns="20" hidden="true">
+          </dataField>
+          <dataField fieldName="CompletedBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="CreatedBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="CreatedDate" columns="20">
+          </dataField>
+          <dataField fieldName="UpdateBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateDate" columns="20" hidden="true">
+          </dataField>
+        </dataFields>
+        <overrideWhen>Context.User.IsInRole("Planned")</overrideWhen>
+        <styles>
+          <expression type="ClientScript" result="inProgress" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'I'" />
+          <expression type="ClientScript" result="Resolved" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'R'" />
+          <expression type="ClientScript" result="closed" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'C'" />
+          <expression type="ClientScript" result="waiting" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'W'" />
+          <expression type="ClientScript" result="Hold" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'H'" />
+          <expression type="ClientScript" result="New" test="$row.CurrentUserName == $row.AssignedTo &amp;&amp; $row.Status == 'N'" />
+        </styles>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" />
+        <action id="a3" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+        <action commandName="Custom" commandArgument="InProgressWo" headerText="In-Progress" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'I'" id="a101" cssClass="material-icon-play-circle-outline" />
+        <action commandName="Custom" commandArgument="ResolveWo" headerText="Resolved" whenClientScript="$row.Status == 'I'" id="a103" cssClass="material-icon-assignment-turned-in" />
+        <action commandName="Custom" commandArgument="CloseWo" headerText="Close" whenClientScript="$row.Status == 'R'" id="a100" cssClass="material-icon-archive" />
+        <action commandName="Custom" commandArgument="HoldWo" headerText="On Hold" whenClientScript="$row.Status != 'C' &amp;&amp; $row.Status != 'H'" id="a102" cssClass="material-icon-pause-circle-outline" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" />
+        <action id="a2" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" whenClientScript="$row.Status != 'C'" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" whenClientScript="$row.Status != 'C'" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" />
+        <action id="a4" commandName="ExportRss" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" />
+        <action id="a7" commandName="DataSheet" />
+        <action id="a8" commandName="Grid" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" roles="Administrators" />
+        <action id="a2" commandName="ReportAsImage" roles="Administrators" />
+        <action id="a3" commandName="ReportAsExcel" roles="Administrators" />
+        <action id="a4" commandName="ReportAsWord" roles="Administrators" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+      <rule id="r101" commandName="Custom" commandArgument="HoldWo" type="Sql" phase="Execute">UPDATE WoItem
+SET [status] = 'H'
+where woItemId = @WoItemID</rule>
+      <rule id="r102" commandName="Custom" commandArgument="InProgressWo" type="Sql" phase="Execute">UPDATE WoItem
+SET [status] = 'I', [CompletedDate] = null, CompletedBy = null
+where woItemId = @WoItemID</rule>
+      <rule id="r103" commandName="Custom" commandArgument="CloseWo" type="Sql" phase="Execute">UPDATE WoItem
+SET [status] = 'C'
+where woItemId = @WoItemID</rule>
+      <rule id="r104" commandName="Custom" commandArgument="ResolveWo" type="Sql" phase="Execute">UPDATE WoItem
+SET [status] = 'R', [CompletedDate] = getdate(), CompletedBy = @BusinessRules_UserName
+where woItemId = @WoItemID</rule>
+      <rule id="r105" commandName="Calculate|Insert|Update" type="Sql" phase="Before">set @AssignedDate = getdate()</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="WoItemAttachment" conflictDetection="overwriteChanges" label="Wo Item Attachment" nativeSchema="dbo" nativeTableName="woItemAttachment" generateDataAccessObjects="false">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"woItemAttachment"."woItemAttachmentId" "WoItemAttachmentID"
+	,"woItemAttachment"."woItemId" "WoItemID"
+	,"woItem"."details" "WoitemDetails"
+	,"woItemwo"."woId" "WoitemwoWoid"
+	,"woItemAttachment"."FileName" "FileName"
+	,"woItemAttachment"."Length" "Length"
+	,"woItemAttachment"."ContentType" "ContentType"
+	,"woItemAttachment"."createdBy" "CreatedBy"
+	,"woItemAttachment"."createdDate" "CreatedDate"
+	,"woItemAttachment"."Comment" "Comment"
+	,"woItemAttachment"."type" "Type"
+	,"woItemAttachment"."updateDate" "UpdateDate"
+	,"woItemAttachment"."updateBy" "UpdateBy"
+from "dbo"."woItemAttachment" "woItemAttachment"
+	left join "dbo"."woItem" "woItem" on "woItemAttachment"."woItemId" = "woItem"."woItemId"
+	left join "dbo"."WO" "woItemwo" on "woItem"."woId" = "woItemwo"."woId"
+]]></text>
+      </command>
+      <command id="woItemAttachmentIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="woItemAttachmentId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="WoItemAttachmentID" type="Int32" allowNulls="false" isPrimaryKey="true" label="wo Item Attachment Id" readOnly="true" />
+      <field name="WoItemID" type="Int32" allowNulls="false" label="wo Item Id" showInSummary="true">
+        <items style="Lookup" dataController="WoItem" newDataView="createForm1" dataValueField="WoItemID" dataTextField="Details" copy="" />
+      </field>
+      <field name="WoitemDetails" type="String" readOnly="true" label="Woitem Details" length="100" />
+      <field name="WoitemwoWoid" type="Int32" label="Woitemwo Woid" readOnly="true" />
+      <field name="FileName" type="String" allowNulls="false" label="File Name" length="50" showInSummary="true" />
+      <field name="Length" type="Int32" allowNulls="false" label="Length" showInSummary="true" />
+      <field name="ContentType" type="String" allowNulls="false" label="Content Type" length="250" showInSummary="true" />
+      <field name="CreatedBy" type="String" label="created By" length="50" showInSummary="true">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" />
+      <field name="Comment" type="String" label="Comment" length="250" />
+      <field name="Type" type="String" label="Type" length="2" allowNulls="false">
+        <items style="ListBox">
+          <item value="B" text="Before Picture" />
+          <item value="A" text="After Picture" />
+          <item value="E" text="Expense" />
+          <item value="O" text="Other" />
+        </items>
+      </field>
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+      <field name="UpdateBy" type="String" label="Update By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="Attachment" type="Byte[]" label="Attachment" sourceFields="WoItemAttachmentID" onDemand="true" onDemandHandler="WoItemAttachmentHandler" onDemandStyle="Thumbnail" />
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Attachment">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="FileName" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="Attachment" columns="15" />
+          <dataField fieldName="CreatedDate" columns="20" />
+          <dataField fieldName="Type" columns="15">
+          </dataField>
+          <dataField fieldName="Comment" />
+          <dataField fieldName="CreatedBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="WoItemID" aliasFieldName="WoitemDetails" hidden="true">
+          </dataField>
+          <dataField fieldName="WoitemwoWoid" columns="15" hidden="true">
+          </dataField>
+          <dataField fieldName="Length" columns="15" hidden="true">
+          </dataField>
+          <dataField fieldName="ContentType" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateDate" columns="20" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateBy" columns="50" hidden="true">
+          </dataField>
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Attachment" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="Item Attachment">
+            <description />
+            <dataFields>
+              <dataField fieldName="WoItemID" aliasFieldName="WoitemDetails" />
+              <dataField fieldName="WoitemwoWoid" columns="15" />
+              <dataField fieldName="FileName" columns="50" />
+              <dataField fieldName="Length" columns="15" />
+              <dataField fieldName="ContentType" />
+              <dataField fieldName="Type" columns="2" />
+              <dataField fieldName="Attachment" columns="15" tag="header-image-original">
+              </dataField>
+              <dataField fieldName="Comment" />
+            </dataFields>
+          </category>
+          <category headerText="Audit Trail" id="c2">
+            <dataFields>
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="CreatedBy" columns="50" textMode="Static">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" textMode="Static">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Attachment" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category id="c1">
+            <description />
+            <dataFields>
+              <dataField fieldName="WoItemID" aliasFieldName="WoitemDetails" />
+              <dataField fieldName="WoitemwoWoid" columns="15" hidden="true">
+              </dataField>
+              <dataField fieldName="FileName" columns="50" />
+              <dataField fieldName="Length" columns="15" hidden="true">
+              </dataField>
+              <dataField fieldName="ContentType" />
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+              <dataField fieldName="Type" columns="2" />
+              <dataField fieldName="Attachment" columns="15" />
+              <dataField fieldName="Comment" />
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" roles="Administrators" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" roles="Administrators,Silvershore" />
+        <action id="a2" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" roles="Administrators,Silvershore" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" roles="Administrators,Silvershore" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" roles="Administrators,Silvershore" />
+        <action id="a4" commandName="ExportRss" roles="Administrators,Silvershore" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" roles="Administrators,Silvershore" />
+        <action id="a7" commandName="DataSheet" roles="Administrators,Silvershore" />
+        <action id="a8" commandName="Grid" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" roles="Administrators,Silvershore" />
+        <action id="a2" commandName="ReportAsImage" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="ReportAsExcel" roles="Administrators,Silvershore" />
+        <action id="a4" commandName="ReportAsWord" roles="Administrators,Silvershore" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <blobAdapterConfig>Field: Attachment
+Storage-System: File
+Path-Template: C:\appsLibrary\Silvershore\WorkOrder\{WoItemAttachmentID}-{FileName}
+File-Name-Field: FileName
+Content-Type-Field: ContentType
+Length-Field: Length</blobAdapterConfig>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="WoItemTransaction" conflictDetection="overwriteChanges" label="Wo Item Transaction" nativeSchema="dbo" nativeTableName="woItemTransaction">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"woItemTransaction"."woItemTransId" "WoItemTransID"
+	,"woItemTransaction"."woItemId" "WoItemID"
+	,"woItem"."status" "WoItemstatus"
+	,"woItemwo"."woId" "WoitemwoWoid"
+	,"woItemTransaction"."transactionTypeId" "TransactionTypeID"
+	,"transactionType"."transactionType" "TransactionTypetransactionType"
+	,"woItemTransaction"."startDate" "StartDate"
+	,"woItemTransaction"."endDate" "EndDate"
+	,"woItemTransaction"."note" "Note"
+	,"woItemTransaction"."createdBy" "CreatedBy"
+	,"woItemTransaction"."createdDate" "CreatedDate"
+	,"woItemTransaction"."updateDate" "UpdateDate"
+	,"woItemTransaction"."updateBy" "UpdateBy"
+from "dbo"."woItemTransaction" "woItemTransaction"
+	left join "dbo"."woItem" "woItem" on "woItemTransaction"."woItemId" = "woItem"."woItemId"
+	left join "dbo"."WO" "woItemwo" on "woItem"."woId" = "woItemwo"."woId"
+	left join "dbo"."woTransactionType" "transactionType" on "woItemTransaction"."transactionTypeId" = "transactionType"."transactionTypeId"
+]]></text>
+      </command>
+      <command id="woItemTransIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="woItemTransId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="WoItemTransID" type="Int32" allowNulls="false" isPrimaryKey="true" label="wo Item Trans Id" readOnly="true" />
+      <field name="WoItemID" type="Int32" allowNulls="false" label="wo Item Id" showInSummary="true">
+        <items style="Lookup" dataController="WoItem" newDataView="createForm1" dataValueField="WoItemID" dataTextField="Wostatus" copy="" />
+      </field>
+      <field name="WoItemstatus" type="String" readOnly="true" label="wo Itemstatus" length="1" />
+      <field name="WoitemwoWoid" type="Int32" label="Woitemwo Woid" readOnly="true" />
+      <field name="TransactionTypeID" type="Int32" label="transaction Type Id" showInSummary="true">
+        <items style="RadioButtonList" dataController="WoTransactionType" newDataView="createForm1" dataValueField="TransactionTypeID" dataTextField="TransactionType" />
+      </field>
+      <field name="TransactionTypetransactionType" type="String" readOnly="true" label="Transaction Type" length="150" />
+      <field name="StartDate" type="DateTime" dataFormatString="g" label="start Date" showInSummary="true" />
+      <field name="EndDate" type="DateTime" dataFormatString="g" label="end Date" showInSummary="true" />
+      <field name="Note" type="String" allowQBE="false" allowSorting="false" label="Note" showInSummary="true" />
+      <field name="CreatedBy" type="String" label="created By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" />
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+      <field name="UpdateBy" type="String" label="Update By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Ticket Activity">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="Note" rows="5" />
+          <dataField fieldName="WoItemID" aliasFieldName="WoItemstatus" />
+          <dataField fieldName="WoitemwoWoid" columns="15" hidden="true">
+          </dataField>
+          <dataField fieldName="TransactionTypeID" aliasFieldName="TransactionTypetransactionType" />
+          <dataField fieldName="StartDate" columns="20" />
+          <dataField fieldName="EndDate" columns="20" />
+          <dataField fieldName="CreatedBy" columns="50" />
+          <dataField fieldName="CreatedDate" columns="20" />
+          <dataField fieldName="UpdateDate" columns="20" />
+          <dataField fieldName="UpdateBy" columns="50" />
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Ticket Item Activity" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="Item Activity">
+            <description />
+            <dataFields>
+              <dataField fieldName="WoItemID" aliasFieldName="WoItemstatus" hidden="true">
+              </dataField>
+              <dataField fieldName="Note" rows="5" />
+              <dataField fieldName="WoitemwoWoid" columns="15" hidden="true">
+              </dataField>
+              <dataField fieldName="TransactionTypeID" aliasFieldName="TransactionTypetransactionType" columns="2">
+              </dataField>
+              <dataField fieldName="StartDate" columns="20" />
+              <dataField fieldName="EndDate" columns="20" />
+            </dataFields>
+          </category>
+          <category headerText="Audit Trail" id="c2">
+            <dataFields>
+              <dataField fieldName="CreatedBy" columns="50" textMode="Static">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Action" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="New Activity">
+            <description />
+            <dataFields>
+              <dataField fieldName="WoItemID" aliasFieldName="WoItemstatus" hidden="true">
+              </dataField>
+              <dataField fieldName="Note" rows="5" />
+              <dataField fieldName="WoitemwoWoid" columns="15" hidden="true">
+              </dataField>
+              <dataField fieldName="TransactionTypeID" aliasFieldName="TransactionTypetransactionType" columns="2">
+              </dataField>
+              <dataField fieldName="StartDate" columns="20" />
+              <dataField fieldName="EndDate" columns="20" />
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" />
+        <action id="a3" commandName="Delete" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" />
+        <action id="a2" commandName="Delete" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" />
+        <action id="a4" commandName="ExportRss" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" />
+        <action id="a7" commandName="DataSheet" />
+        <action id="a8" commandName="Grid" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" />
+        <action id="a2" commandName="ReportAsImage" />
+        <action id="a3" commandName="ReportAsExcel" />
+        <action id="a4" commandName="ReportAsWord" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="WoNote" conflictDetection="overwriteChanges" label="Wo Note" nativeSchema="dbo" nativeTableName="woNote">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"woNote"."woNoteId" "WoNoteID"
+	,"woNote"."woId" "WoID"
+	,"wo"."status" "Wostatus"
+	,"woNote"."woNoteTempId" "WoNoteTempID"
+	,"woNoteTemp"."note" "WoNoteTempnote"
+	,"woNote"."noteOther" "NoteOther"
+	,"woNote"."createdBy" "CreatedBy"
+	,"woNote"."createdDate" "CreatedDate"
+	,"woNote"."updateDate" "UpdateDate"
+	,"woNote"."updateBy" "UpdateBy"
+	,"woNote"."notify" "Notify"
+from "dbo"."woNote" "woNote"
+	left join "dbo"."WO" "wo" on "woNote"."woId" = "wo"."woId"
+	left join "dbo"."woNoteTemplate" "woNoteTemp" on "woNote"."woNoteTempId" = "woNoteTemp"."woNoteTempId"
+]]></text>
+      </command>
+      <command id="woNoteIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="woNoteId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="WoNoteID" type="Int32" allowNulls="false" isPrimaryKey="true" label="wo Note Id" readOnly="true" />
+      <field name="WoID" type="Int32" allowNulls="false" label="wo Id" showInSummary="true">
+        <items style="Lookup" dataController="Wo" dataView="grid1" dataTextField="Comment" dataValueField="WoID" />
+      </field>
+      <field name="Wostatus" type="String" readOnly="true" label="Wostatus" length="1" />
+      <field name="WoNoteTempID" type="Int32" label="Copy Note" showInSummary="true">
+        <items style="RadioButtonList" dataController="WoNoteTemplate" newDataView="createForm1" dataValueField="WoNoteTempID" dataTextField="Note" copy="NoteOther=Note" />
+      </field>
+      <field name="WoNoteTempnote" type="String" readOnly="true" label="Quick Note" length="150" />
+      <field name="NoteOther" type="String" allowQBE="false" allowSorting="false" label="Note" showInSummary="true" />
+      <field name="CreatedBy" type="String" label="created By" length="50" showInSummary="true">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" showInSummary="true" />
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" />
+      <field name="UpdateBy" type="String" label="Update By" length="50">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="Notify" type="String" label="Notify" length="30">
+        <items style="CheckBoxList">
+          <item value="Silvershore" text="Silvershore" />
+          <item value="Planned" text="Planned" />
+        </items>
+        <codeDefault>"Silvershore"</codeDefault>
+      </field>
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Note" sortExpression="CreatedDate desc">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="WoID" aliasFieldName="Wostatus" />
+          <dataField fieldName="CreatedDate" columns="20" hidden="true">
+          </dataField>
+          <dataField fieldName="CreatedBy" columns="50" hidden="true">
+          </dataField>
+          <dataField fieldName="NoteOther" rows="5" />
+          <dataField fieldName="WoNoteTempID" aliasFieldName="WoNoteTempnote" hidden="true">
+          </dataField>
+          <dataField fieldName="UpdateDate" columns="20">
+          </dataField>
+          <dataField fieldName="UpdateBy" columns="50">
+          </dataField>
+          <dataField fieldName="Notify" columns="30" />
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Note" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="Ticket Note">
+            <description />
+            <dataFields>
+              <dataField fieldName="WoID" aliasFieldName="Wostatus" />
+              <dataField fieldName="NoteOther" rows="5" />
+              <dataField fieldName="Notify" columns="30" textMode="Static">
+              </dataField>
+              <dataField fieldName="WoNoteTempID" aliasFieldName="WoNoteTempnote" />
+            </dataFields>
+          </category>
+          <category headerText="Audit Trail" id="c2">
+            <dataFields>
+              <dataField fieldName="CreatedBy" columns="50" tag="lookup-details-hidden" textMode="Static">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" />
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Note" tags="modal-max-any">
+        <headerText />
+        <categories>
+          <category id="c1">
+            <description />
+            <dataFields>
+              <dataField fieldName="WoID" aliasFieldName="Wostatus" />
+              <dataField fieldName="NoteOther" rows="5" />
+              <dataField fieldName="WoNoteTempID" aliasFieldName="WoNoteTempnote" />
+              <dataField fieldName="Notify" columns="30" />
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" />
+        <action id="a3" commandName="Delete" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" />
+        <action id="a2" commandName="Delete" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+      <rule id="r101" commandName="Insert" type="JavaScript" phase="After">console.log([WoID]+' '+[CreatedBy]);
+var woid = [WoID];
+var username = [CreatedBy];
+var note = [NoteOther];
+var notify = [Notify];
+$.post("http://cp.planned.co/ivr/sp/silvershoreWo.cfc", {method: 'sendNote',createdBy: username, WOId: woid, Note: note, Notify: notify }, function(result){
+        
+});</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="WoNoteTemplate" conflictDetection="overwriteChanges" label="Wo Note Template" nativeSchema="dbo" nativeTableName="woNoteTemplate">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"woNoteTemplate"."woNoteTempId" "WoNoteTempID"
+	,"woNoteTemplate"."note" "Note"
+	,"woNoteTemplate"."createdBy" "CreatedBy"
+	,"woNoteTemplate"."createdDate" "CreatedDate"
+	,"woNoteTemplate"."updateBy" "UpdateBy"
+	,"woNoteTemplate"."updateDate" "UpdateDate"
+from "dbo"."woNoteTemplate" "woNoteTemplate"
+]]></text>
+      </command>
+      <command id="woNoteTempIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="woNoteTempId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="WoNoteTempID" type="Int32" allowNulls="false" isPrimaryKey="true" label="wo Note Temp Id" readOnly="true" />
+      <field name="Note" type="String" allowNulls="false" label="Note" length="150" showInSummary="true" />
+      <field name="CreatedBy" type="String" label="created By" length="50" showInSummary="true">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" showInSummary="true" />
+      <field name="UpdateBy" type="String" label="Update By" length="50" showInSummary="true">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" showInSummary="true" />
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Note Template">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="Note" />
+          <dataField fieldName="CreatedBy" columns="50" />
+          <dataField fieldName="CreatedDate" columns="20" />
+          <dataField fieldName="UpdateBy" columns="50" />
+          <dataField fieldName="UpdateDate" columns="20" />
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Note Template">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="Wo Note Template">
+            <description>$DefaultEditDescription</description>
+            <dataFields>
+              <dataField fieldName="Note" />
+              <dataField fieldName="CreatedBy" columns="50" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" />
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Note Template">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="New Wo Note Template">
+            <description>$DefaultNewDescription</description>
+            <dataFields>
+              <dataField fieldName="Note" />
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" roles="Administrators,Silvershore" />
+        <action id="a2" commandName="Delete" roles="Administrators,Silvershore" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" />
+        <action id="a4" commandName="ExportRss" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" />
+        <action id="a7" commandName="DataSheet" />
+        <action id="a8" commandName="Grid" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" />
+        <action id="a2" commandName="ReportAsImage" />
+        <action id="a3" commandName="ReportAsExcel" />
+        <action id="a4" commandName="ReportAsWord" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="WoTransactionType" conflictDetection="overwriteChanges" label="Wo Transaction Type" nativeSchema="dbo" nativeTableName="woTransactionType">
+    <commands>
+      <command id="command1" type="Text">
+        <text><![CDATA[
+select
+	"woTransactionType"."transactionTypeId" "TransactionTypeID"
+	,"woTransactionType"."transactionType" "TransactionType"
+	,"woTransactionType"."createdBy" "CreatedBy"
+	,"woTransactionType"."createdDate" "CreatedDate"
+	,"woTransactionType"."updateDate" "UpdateDate"
+	,"woTransactionType"."updateBy" "UpdateBy"
+from "dbo"."woTransactionType" "woTransactionType"
+]]></text>
+      </command>
+      <command id="transactionTypeIdIdentityCommand" type="Text" event="Inserted">
+        <text><![CDATA[select @@identity]]></text>
+        <output>
+          <fieldOutput fieldName="transactionTypeId" />
+        </output>
+      </command>
+    </commands>
+    <fields>
+      <field name="TransactionTypeID" type="Int32" allowNulls="false" isPrimaryKey="true" label="transaction Type Id" readOnly="true" />
+      <field name="TransactionType" type="String" allowNulls="false" label="Transaction Type" length="150" showInSummary="true" />
+      <field name="CreatedBy" type="String" label="created By" length="50" showInSummary="true">
+        <items style="UserNameLookup" />
+      </field>
+      <field name="CreatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="created Date" showInSummary="true" />
+      <field name="UpdateDate" type="DateTime" dataFormatString="g" label="Update Date" showInSummary="true" />
+      <field name="UpdateBy" type="String" label="Update By" length="50" showInSummary="true">
+        <items style="UserNameLookup" />
+      </field>
+    </fields>
+    <views>
+      <view id="grid1" type="Grid" commandId="command1" label="Transaction Type">
+        <headerText />
+        <dataFields>
+          <dataField fieldName="TransactionType" />
+          <dataField fieldName="CreatedBy" columns="50" />
+          <dataField fieldName="CreatedDate" columns="20" />
+          <dataField fieldName="UpdateDate" columns="20" />
+          <dataField fieldName="UpdateBy" columns="50" />
+        </dataFields>
+      </view>
+      <view id="editForm1" type="Form" commandId="command1" label="Review Transaction Type">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="Wo Transaction Type">
+            <description>$DefaultEditDescription</description>
+            <dataFields>
+              <dataField fieldName="TransactionType" />
+              <dataField fieldName="CreatedBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+              <dataField fieldName="CreatedDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateDate" columns="20" textMode="Static">
+              </dataField>
+              <dataField fieldName="UpdateBy" columns="50" textMode="Static" tag="lookup-details-hidden">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="createForm1" type="Form" commandId="command1" label="New Transaction Type">
+        <headerText />
+        <categories>
+          <category id="c1" headerText="New Wo Transaction Type">
+            <description>$DefaultNewDescription</description>
+            <dataFields>
+              <dataField fieldName="TransactionType" />
+              <dataField fieldName="CreatedBy" columns="50" hidden="true">
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Grid">
+        <action id="a1" commandName="Select" commandArgument="editForm1" />
+        <action id="a2" commandName="Edit" />
+        <action id="a3" commandName="Delete" />
+        <action id="a6" />
+        <action id="a7" commandName="New" commandArgument="grid1" />
+        <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag2" scope="Form">
+        <action id="a1" commandName="Edit" />
+        <action id="a2" commandName="Delete" />
+        <action id="a3" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+        <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+        <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+        <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+        <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+        <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+        <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      </actionGroup>
+      <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+        <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+      </actionGroup>
+      <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+        <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="grid1" />
+        <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="grid1" />
+      </actionGroup>
+      <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+        <action id="a1" commandName="ExportCsv" />
+        <action id="a2" />
+        <action id="a3" commandName="ExportRowset" />
+        <action id="a4" commandName="ExportRss" />
+        <action id="a5" />
+        <action id="a6" commandName="Import" commandArgument="createForm1" />
+        <action id="a7" commandName="DataSheet" />
+        <action id="a8" commandName="Grid" />
+      </actionGroup>
+      <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+        <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="New" commandName="Insert" />
+        <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+      <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+        <action id="a1" commandName="ReportAsPdf" />
+        <action id="a2" commandName="ReportAsImage" />
+        <action id="a3" commandName="ReportAsExcel" />
+        <action id="a4" commandName="ReportAsWord" />
+      </actionGroup>
+      <actionGroup id="ag8" scope="Row">
+        <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+        <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+        <action id="a6" whenLastCommandName="New" commandName="Insert" />
+        <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Insert" type="Sql" phase="Before">SET @CreatedBy = @BusinessRules_UserName</rule>
+    </businessRules>
+  </dataController>
+  <dataController name="MyProfile" conflictDetection="overwriteChanges" label="My Profile" handler="MyProfileBusinessRules">
+    <commands />
+    <fields>
+      <field name="UserName" type="String" allowNulls="false" label="^UserName^User Name^UserName^" />
+      <field name="RememberMe" type="Boolean" allowNulls="false" default="0" label="^RememberMe^Remember me next time^RememberMe^">
+        <items style="CheckBox" />
+      </field>
+      <field name="Password" type="String" allowNulls="false" label="^Password^Password^Password^" />
+      <field name="ConfirmPassword" type="String" allowNulls="false" label="^ConfirmPassword^Confirm Password^ConfirmPassword^" />
+      <field name="OldPassword" type="String" allowNulls="false" label="^OldPassword^Old Password^OldPassword^" />
+      <field name="Email" type="String" label="^Email^Email^Email^" allowNulls="false" />
+      <field name="PasswordQuestion" type="String" label="^PasswordQuestion^Password Question^PasswordQuestion^" allowNulls="false" />
+      <field name="PasswordAnswer" type="String" label="^PasswordAnswer^Password Answer^PasswordAnswer^" allowNulls="false" />
+    </fields>
+    <views>
+      <view id="loginForm" type="Form" access="Public" label="^LoginLink^Login^LoginLink^" tags="modal-fit-content modal-max-xs material-icon-lock-outline discard-changes-prompt-none">
+        <categories>
+          <category id="c1" headerText="" flow="NewColumn">
+            <dataFields>
+              <dataField fieldName="UserName" />
+              <dataField fieldName="Password" textMode="Password" />
+              <dataField fieldName="RememberMe" />
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="signUpForm" type="Form" commandId="command1" access="Public" label="^SignUpViewLabel^Account Sign Up^SignUpViewLabel^" tags="material-icon-person-add">
+        <headerText>^SignUpViewHeaderText^Please fill this form and click OK button to sign up for an account. Click Cancel to return to the previous screen.^SignUpViewHeaderText^</headerText>
+        <categories>
+          <category id="c1" headerText="^SignUpViewNewUserInfoCategoryHeaderText^New User Information^SignUpViewNewUserInfoCategoryHeaderText^" flow="NewColumn">
+            <description>^SignUpViewNewUserInfoCategoryDescription^Please enter user name and password. Note that password must be at least 7 characters long and include one non-alphanumeric character. Only approved users will be able to login into the website.^SignUpViewNewUserInfoCategoryDescription^</description>
+            <dataFields>
+              <dataField fieldName="UserName" columns="20" />
+              <dataField fieldName="Password" columns="20" textMode="Password" />
+              <dataField fieldName="ConfirmPassword" columns="20" textMode="Password" />
+            </dataFields>
+          </category>
+          <category id="c2" headerText="^SignUpViewPasswordRecoveryCategoryHeaderText^Password Recovery^SignUpViewPasswordRecoveryCategoryHeaderText^">
+            <description>
+                        
+                        ^SignUpViewPasswordRecoveryCategoryDescription^These fields are required to help you to recover a forgotten password. During the recovery process you will be asked to enter a user name. 
+						If a user account exists then a security question is requested to be answered. A correct answer will trigger an email with a temporary password send to the registered email.^SignUpViewPasswordRecoveryCategoryDescription^
+                      
+                      </description>
+            <dataFields>
+              <dataField fieldName="Email" />
+              <dataField fieldName="PasswordQuestion" />
+              <dataField fieldName="PasswordAnswer" />
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="passwordRequestForm" type="Form" commandId="command1" access="Public" label="^PasswordRequestViewLabel^Password Recovery: Step 1 of 2^PasswordRequestViewLabel^" tags="material-icon-lock discard-changes-prompt-none">
+        <headerText>^PasswordRequestViewHeaderText^Please fill this form and click Continue button to recover the forgotten password. Click Cancel to return to the previous screen.^PasswordRequestViewHeaderText^</headerText>
+        <categories>
+          <category id="c1" headerText="^PasswordRequestViewForgotPasswordCategoryHeaderText^Forgot your password?^PasswordRequestViewForgotPasswordCategoryHeaderText^" flow="NewColumn">
+            <description>^PasswordRequestViewForgotPasswordCategoryDescription^Please enter a user name. &lt;br/&gt;&lt;br/&gt;&lt;br/&gt;^PasswordRequestViewForgotPasswordCategoryDescription^</description>
+            <dataFields>
+              <dataField fieldName="UserName" columns="20" />
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="identityConfirmationForm" type="Form" commandId="command1" access="Public" label="^IdentityConfirmViewLabel^Password Recovery: Step 2 of 2^IdentityConfirmViewLabel^" tags="material-icon-lock-open discard-changes-prompt-none">
+        <headerText>^IdentityConfirmViewHeaderText^Please fill this form and click Submit button to recover the forgotten password. Click Cancel to return to the previous screen.^IdentityConfirmViewHeaderText^</headerText>
+        <categories>
+          <category id="c1" headerText="^IdentityConfirmationViewIdentityConfirmCategoryHeaderText^Identity Confirmation^IdentityConfirmationViewIdentityConfirmCategoryHeaderText^" flow="NewColumn">
+            <description>^IdentityConfirmationViewIdentityConfirmCategoryDescription^Answer the following question to receive your password. &lt;br/&gt;&lt;br/&gt;&lt;br/&gt;^IdentityConfirmationViewIdentityConfirmCategoryDescription^</description>
+            <dataFields>
+              <dataField fieldName="UserName" columns="20" readOnly="true" />
+              <dataField fieldName="PasswordQuestion" readOnly="true" />
+              <dataField fieldName="PasswordAnswer" />
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+      <view id="myAccountForm" type="Form" commandId="command1" label="^MyAccountViewLabel^My Account^MyAccountViewLabel^" tags="material-icon-perm-identity discard-changes-prompt-none">
+        <headerText>^MyAccountViewHeaderText^Please review your membership information below. Click Update My Account to change this record, or click Cancel to return back.^MyAccountViewHeaderText^</headerText>
+        <categories>
+          <category id="c1" headerText="^MyAccountViewCurrentPasswordCategoryHeaderText^1. Current Password^MyAccountViewCurrentPasswordCategoryHeaderText^" flow="NewColumn">
+            <description>^MyAccountViewCurrentPasswordCategoryDescription^Please enter your current password to create new password, update your email address, or change password recovery question and answer.^MyAccountViewCurrentPasswordCategoryDescription^</description>
+            <dataFields>
+              <dataField fieldName="UserName" readOnly="true" />
+              <dataField fieldName="OldPassword" columns="20" textMode="Password">
+                <headerText>^Password^Password^Password^</headerText>
+              </dataField>
+            </dataFields>
+          </category>
+          <category id="c2" headerText="^MyAccountViewNewPasswordCategoryHeaderText^2. New Password (Optional)^MyAccountViewNewPasswordCategoryHeaderText^">
+            <description>^MyAccountViewNewPasswordCategoryDescription^Please enter new password. Note that password must be at least 7 characters long and include one non-alphanumeric character.^MyAccountViewNewPasswordCategoryDescription^</description>
+            <dataFields>
+              <dataField fieldName="Password" columns="20" textMode="Password">
+                <headerText>^NewPassword^New Password^NewPassword^</headerText>
+              </dataField>
+              <dataField fieldName="ConfirmPassword" columns="20" textMode="Password">
+                <headerText>^ConfirmNewPassword^Confirm New Password^ConfirmNewPassword^</headerText>
+              </dataField>
+            </dataFields>
+          </category>
+          <category id="c3" headerText="^MyAccountViewPasswordRecoveryCategoryHeaderText^3. Email &amp; Password Recovery (Optional)^MyAccountViewPasswordRecoveryCategoryHeaderText^">
+            <description>
+                        
+                        ^MyAccountViewPasswordRecoveryCategoryDescription^During the recovery of a forgotten password you will be asked to enter your user name. 
+						If a user account exists then a password question must be answered. A correct answer will trigger an email with a temporary password send to you.^MyAccountViewPasswordRecoveryCategoryDescription^
+                      
+                      </description>
+            <dataFields>
+              <dataField fieldName="Email" />
+              <dataField fieldName="PasswordQuestion" />
+              <dataField fieldName="PasswordAnswer">
+                <headerText>^MaskedPasswordAnswer^Password Answer (not displayed for your protection)^MaskedPasswordAnswer^</headerText>
+              </dataField>
+            </dataFields>
+          </category>
+        </categories>
+      </view>
+    </views>
+    <actions>
+      <actionGroup id="ag1" scope="Form">
+        <action id="a1" whenLastCommandName="New" whenLastCommandArgument="signUpForm" commandName="Insert" commandArgument="SignUp" headerText="^SignUp^Sign Up^SignUp^" />
+        <action id="a2" whenLastCommandName="New" whenLastCommandArgument="signUpForm" commandName="Cancel" />
+        <action id="a3" whenLastCommandName="Insert" whenLastCommandArgument="SignUp" commandName="Cancel" />
+        <action id="a4" whenLastCommandName="New" whenLastCommandArgument="passwordRequestForm" commandName="Cancel" />
+        <action id="a5" whenLastCommandName="New" whenLastCommandArgument="passwordRequestForm" commandName="Custom" commandArgument="RequestPassword" headerText="^RequestPasswordActionHeaderText^Next^RequestPasswordActionHeaderText^" cssClass="material-icon-arrow-forward" />
+        <action id="a6" whenLastCommandName="Edit" whenLastCommandArgument="identityConfirmationForm" commandName="Custom" commandArgument="BackToRequestPassword" headerText="^BackToRequestPasswordActionHeaderText^Back^BackToRequestPasswordActionHeaderText^" causesValidation="false" />
+        <action id="a7" whenLastCommandName="Edit" whenLastCommandArgument="identityConfirmationForm" commandName="Custom" commandArgument="ConfirmIdentity" headerText="^ConfirmIdentityActionHeaderText^Finish^ConfirmIdentityActionHeaderText^" cssClass="material-icon-check" />
+        <action id="a8" whenLastCommandName="Edit" whenLastCommandArgument="myAccountForm" commandName="Update" headerText="^UpdateMyAccountActionHeaderText^Update My Account^UpdateMyAccountActionHeaderText^" causesValidation="false" />
+        <action id="a9" whenLastCommandName="Edit" whenLastCommandArgument="myAccountForm" commandName="Cancel" />
+        <action id="a10" commandName="Custom" headerText="^LoginButton^Login^LoginButton^" commandArgument="Login" whenLastCommandName="New" whenLastCommandArgument="loginForm" causesValidation="true" key="Enter" />
+        <action id="a11" commandName="Custom" headerText="^SignUpNow^Sign up now^SignUpNow^" commandArgument="SignUp" whenLastCommandName="New" whenLastCommandArgument="loginForm" causesValidation="false" roles="hide" />
+        <action id="a12" commandName="Custom" headerText="^ForgotYourPassword^Forgot your password?^ForgotYourPassword^" commandArgument="ForgotPassword" whenLastCommandName="New" whenLastCommandArgument="loginForm" causesValidation="false" />
+      </actionGroup>
+      <actionGroup id="agAuth" scope="Custom">
+        <action id="aFacebook" commandName="Navigate" commandArgument="~/appservices/saas/facebook" headerText="^LoginWithFacebook^Login With Facebook^LoginWithFacebook^" whenLastCommandName="New" whenLastCommandArgument="loginForm" whenTag="show-facebook-login" />
+        <action id="aGoogle" commandName="Navigate" commandArgument="~/appservices/saas/google" headerText="^LoginWithGoogle^Login With Google^LoginWithGoogle^" whenLastCommandName="New" whenLastCommandArgument="loginForm" whenTag="show-google-login" />
+        <action id="aMsGraph" commandName="Navigate" commandArgument="~/appservices/saas/msgraph" headerText="^LoginWithMicrosoft^Login With Microsoft^LoginWithMicrosoft^" whenLastCommandName="New" whenLastCommandArgument="loginForm" whenTag="show-msgraph-login" />
+        <action id="aWindowsLive" commandName="Navigate" commandArgument="~/appservices/saas/windowslive" headerText="^LoginWithWindowsLive^Login With Windows Live^LoginWithWindowsLive^" whenLastCommandName="New" whenLastCommandArgument="loginForm" whenTag="show-windows-live-login" />
+        <action id="aSharePoint" commandName="Navigate" commandArgument="~/appservices/saas/sharepoint" headerText="^LoginWithSharePoint^Login With SharePoint^LoginWithSharePoint^" whenLastCommandName="New" whenLastCommandArgument="loginForm" whenTag="show-sharepoint-login" />
+      </actionGroup>
+    </actions>
+    <businessRules>
+      <rule id="r100" commandName="Custom" commandArgument="Login" type="JavaScript" phase="Execute">
+                  
+this.preventDefault();
+var resources = Web.MembershipResources.Messages;
+$app.login($row.UserName, $row.Password, $row.RememberMe==true,
+  function () {
+    var returnUrl = window.location.href.match(/\?ReturnUrl=(.+?)(#.+)?$/);
+    setTimeout(function() {
+      $app._navigated = true;
+      window.location.replace(returnUrl &amp;&amp; decodeURIComponent(returnUrl[1]) || __baseUrl);
+    });
+  },
+  function () {
+    $app.alert(resources.InvalidUserNameAndPassword, function() {$app.input.focus({fieldName:'UserName'})});
+  });
+                
+                </rule>
+      <rule id="r101" commandName="Custom" commandArgument="SignUp" type="JavaScript" phase="Execute">
+                  
+this.preventDefault();
+$app.touch.show({
+  controller: 'MyProfile',
+  startCommand: 'New',
+  startArgument: 'signUpForm'
+});
+                
+                </rule>
+      <rule id="r102" commandName="Custom" commandArgument="ForgotPassword" type="JavaScript" phase="Execute">
+                  
+this.preventDefault();
+$app.touch.show({
+  controller: 'MyProfile',
+  startCommand: 'New',
+  startArgument: 'passwordRequestForm'
+});
+                
+                </rule>
+    </businessRules>
+  </dataController>
+</dataControllerCollection>

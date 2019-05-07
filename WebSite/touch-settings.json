@@ -1,0 +1,7 @@
+﻿{
+  "splash": {
+    "background": "/img/silvershore-splash.jpg",
+    "duration": 3000,
+    "enabled": true
+  }
+}

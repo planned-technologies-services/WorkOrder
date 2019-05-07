@@ -1,0 +1,273 @@
+<log xmlns="urn:schemas-codeontime-com:xml-builder" xmlns:aquarium="urn:schemas-codeontime-com:data-aquarium" xmlns:app="urn:schemas-codeontime-com:data-aquarium-application" xmlns:a="urn:schemas-codeontime-com:data-aquarium">
+  <c y="NodeSet" t="2017-08-03T13:27:12">
+    <page name="Wo" />
+    <rename>WorkOrders</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-03T15:13:49">
+    <pages />
+    <insert type="page">
+      <Name>Maintenance</Name>
+      <Generate>Always</Generate>
+      <UseExtenders>false</UseExtenders>
+      <Path>Maintenance</Path>
+      <Title>Maintenance</Title>
+      <Roles>*</Roles>
+    </insert>
+  </c>
+  <c y="NodeSet" t="2017-08-03T15:14:00">
+    <page name="Maintenance" />
+    <move>
+      <page name="WoItem" />
+    </move>
+  </c>
+  <c y="NodeSet" t="2017-08-03T15:14:00">
+    <page name="Maintenance" />
+    <move>
+      <page name="WoNoteTemplate" />
+    </move>
+  </c>
+  <c y="NodeSet" t="2017-08-03T15:14:00">
+    <page name="Maintenance" />
+    <move>
+      <page name="WoItemTransaction" />
+    </move>
+  </c>
+  <c y="NodeSet" t="2017-08-03T15:14:00">
+    <page name="Maintenance" />
+    <move>
+      <page name="WoTransactionType" />
+    </move>
+  </c>
+  <c y="NodeSet" t="2017-08-03T15:14:00">
+    <page name="Maintenance" />
+    <move>
+      <page name="WoNote" />
+    </move>
+  </c>
+  <c y="NodeSet" t="2017-08-03T15:14:00">
+    <page name="Maintenance" />
+    <move>
+      <page name="WoItemAttachment" />
+    </move>
+  </c>
+  <c y="NodeSet" t="2017-08-03T15:14:05">
+    <page name="Wo" />
+    <after>
+      <page name="Maintenance" />
+    </after>
+  </c>
+  <c y="NodeSet" t="2017-08-03T16:44:58">
+    <page name="Wo" />
+    <update>
+      <Name>WorkOrder</Name>
+      <UseExtenders>false</UseExtenders>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-03T16:45:56">
+    <page name="WorkOrder" />
+    <update>
+      <Title>WorkOrder</Title>
+      <Description>View WorkOrders</Description>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-04T13:13:31">
+    <page name="WoItemAttachment" />
+    <after>
+      <page name="Resident" />
+    </after>
+  </c>
+  <c y="NodeSet" t="2017-08-04T13:13:31">
+    <page name="WoItemAttachment" />
+    <after>
+      <page name="Unit" />
+    </after>
+  </c>
+  <c y="NodeSet" t="2017-08-04T13:13:31">
+    <page name="WoItemAttachment" />
+    <after>
+      <page name="Building" />
+    </after>
+  </c>
+  <c y="NodeSet" t="2017-08-07T12:05:18">
+    <page name="WorkOrder" />
+    <update>
+      <Name>Tickets</Name>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-07T12:05:47">
+    <page name="Tickets" />
+    <update>
+      <Title>Tickets</Title>
+      <Description>View Tickets</Description>
+      <About>This page allows Ticket management.</About>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-07T12:06:32">
+    <page name="Tickets" />
+    <rename>Tickets</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-07T16:22:18">
+    <page name="Building" />
+    <update>
+      <UseExtenders>false</UseExtenders>
+      <Roles>Administrators,Silvershore</Roles>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-08T15:41:48">
+    <page name="Tickets" />
+    <after>
+      <page name="WoItem" />
+    </after>
+  </c>
+  <c y="NodeSet" t="2017-08-08T15:41:59">
+    <page name="Maintenance" />
+    <update>
+      <Roles>Administrators,Silvershore</Roles>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-15T13:49:48">
+    <page name="WoItem" />
+    <update>
+      <Name>TicketsItem</Name>
+      <UseExtenders>false</UseExtenders>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-15T13:49:55">
+    <page name="TicketsItem" />
+    <update>
+      <Title>Tickets Item</Title>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-15T13:50:07">
+    <page name="TicketsItem" />
+    <rename>Ticket Item</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-15T13:50:17">
+    <page name="TicketsItem" />
+    <update>
+      <Name>TicketItem</Name>
+      <Title>Ticket Item</Title>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-15T13:50:32">
+    <page name="TicketItem" />
+    <update>
+      <Description>View Ticket Item</Description>
+      <About>This page allows Ticket item management.</About>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:22:10">
+    <page name="WoNoteTemplate" />
+    <before>
+      <page name="Building" />
+    </before>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:22:10">
+    <page name="WoNoteTemplate" />
+    <before>
+      <page name="Unit" />
+    </before>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:22:10">
+    <page name="WoNoteTemplate" />
+    <before>
+      <page name="Resident" />
+    </before>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:22:26">
+    <page name="WoNoteTemplate" />
+    <update>
+      <Name>NoteTemplate</Name>
+      <UseExtenders>false</UseExtenders>
+      <Title>Note Template</Title>
+      <Description>View Note Template</Description>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:22:39">
+    <page name="WoItemTransaction" />
+    <update>
+      <Name>ItemTransaction</Name>
+      <UseExtenders>false</UseExtenders>
+      <Title>Item Transaction</Title>
+      <Description>View Item Transaction</Description>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:22:52">
+    <page name="WoTransactionType" />
+    <update>
+      <Name>TransactionType</Name>
+      <UseExtenders>false</UseExtenders>
+      <Title>Transaction Type</Title>
+      <Description>View Transaction Type</Description>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:23:03">
+    <page name="WoNote" />
+    <update>
+      <Name>Note</Name>
+      <UseExtenders>false</UseExtenders>
+      <Title>Note</Title>
+      <Description>View Note</Description>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:23:14">
+    <page name="WoItemAttachment" />
+    <update>
+      <Name>ItemAttachment</Name>
+      <UseExtenders>false</UseExtenders>
+      <Title>Item Attachment</Title>
+      <Description>View Item Attachment</Description>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:23:22">
+    <page name="NoteTemplate" />
+    <rename>Note Template</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:23:28">
+    <page name="ItemTransaction" />
+    <rename>Item Transaction</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:23:37">
+    <page name="TransactionType" />
+    <rename>Transaction Type</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:23:43">
+    <page name="Note" />
+    <rename>Note</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-17T13:23:49">
+    <page name="ItemAttachment" />
+    <rename>Item Attachment</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-21T10:14:29">
+    <page name="ItemTransaction" />
+    <update>
+      <Name>ItemAction</Name>
+      <Title>Item Action</Title>
+      <Description>View Item Action</Description>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-21T10:14:38">
+    <page name="ItemAction" />
+    <rename>Item Action</rename>
+  </c>
+  <c y="NodeSet" t="2017-08-23T09:52:38">
+    <page name="Users" />
+    <update>
+      <UseExtenders>false</UseExtenders>
+      <Roles>Administrators</Roles>
+    </update>
+  </c>
+  <c y="NodeSet" t="2017-08-23T09:52:45">
+    <page name="Maintenance" />
+    <after>
+      <page name="Users" />
+    </after>
+  </c>
+  <c y="NodeSet" t="2017-08-23T09:52:50">
+    <page name="ItemAttachment" />
+    <after>
+      <page name="Users" />
+    </after>
+  </c>
+</log>

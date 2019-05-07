@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="woTransactionType" alias="woTransactionType" created="2017-08-03T09:37:03" modified="2017-08-08T11:58:20" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys />
+  <columns>
+    <column name="transactionTypeId" fieldName="TransactionTypeID" label="transaction Type Id" />
+    <column name="transactionType" fieldName="TransactionType" label="transaction Type" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+  </columns>
+</dataModel>

@@ -1,0 +1,59 @@
+<!-- 
+  This file is provided to store the settings for your Data Aquarium project. 
+  You can safely delete this file if no further code generation is planned.
+-->
+<project compatibility="20111118" dataModel="required" subscriptionLevel="Unlimited" name="WorkOrder" prettyName="Work Order" type="Web Site Factory" codeDomProvider="CSharp" targetFramework="4.6" userInterface="TouchUI" pageImplementation="html" sourceControl="" displayName="" group="" appGenVersion="8.7.10.0" xmlns="urn:schemas-codeontime-com:data-aquarium-project">
+  <connectionString hostDatabaseSharing="false" sessionStateMode="None">Data Source=;Initial Catalog=SILVERSHORE;Integrated Security=True;</connectionString>
+  <providerName>System.Data.SqlClient</providerName>
+  <namespace>Planned</namespace>
+  <webServer run="true" port="41125" preview="Browser" client="">
+    <webConfig> InsertAfter: /configuration/connectionStrings 
+&lt;system.net&gt;
+        &lt;mailSettings&gt;
+            &lt;smtp from="silvershore@plannedcompanies.com"&gt;
+                &lt;network host="mail.smtp2go.com" 
+                 port="587" 
+                 userName="silvershore" 
+                 password="ShoreSilver99" 
+                 enableSsl="true"/&gt;
+            &lt;/smtp&gt;
+        &lt;/mailSettings&gt;
+&lt;/system.net&gt;</webConfig>
+  </webServer>
+  <features useSaveAndNew="true" pageHeader="Silvershore" copyright="Planned Companies (c)2017. All Rights Reserved." annotations="false" annotationsPath="" newColumn="true" floating="false" maxGridFields="100" multiSelect="false" batchEdit="false" advancedSearch="false" advancedLookup="false" relationshipExplorer="false" enablePermalinks="false" enableHistory="false" enableTransactions="false" showModalForms="true" tabViewSelection="0">
+    <navigation detectUnderscoreSeparatedSchema="" />
+    <blob allowUploadOnInsert="true" />
+    <framework scriptOnly="true" useExtenders="false" />
+    <grid actionColumn="false" />
+    <touch desktopDisplayDensity="Condensed" mobileDisplayDensity="Auto" transitions="" sidebar="Landscape" labelsInList="DisplayedAbove" initialListMode="SeeAll" menu="toolbar" promoteActions="true" smartDates="false" mapApiIdentifier="AIzaSyD5GcCZXzlr1wJqcRt_dLTzY7ZCdcNliZg" mapApiIdentifierMobile="" />
+    <cms searchEngine="" analysisEngine="" analysisOnDataPages="false" />
+    <ease urlHashing="false">
+      <auditing>Modified By User Name = updateBy
+Modified On Date          = updateDate
+</auditing>
+    </ease>
+    <packageProperties></packageProperties>
+    <smtp deliveryMethod="Network" deliveryFormat="" from="" clientDomain="" targetName="" host="" port="" defaultCredentials="true" enableSsl="false" username="" password="" />
+  </features>
+  <reports enabled="true" version="14" />
+  <host path="" url="" />
+  <databaseObjectFilter generate="ControllersAndPages"></databaseObjectFilter>
+  <native windows="false" android="false" ios="false" osx="false" />
+  <bll normalizeModelNames="true" discoveryDepth="3" labelFormatExpression="" selectMethod="Select" selectSingleMethod="SelectSingle" insertMethod="Insert" updateMethod="Update" deleteMethod="Delete" generateSharedBusinessRules="false" includeViews="true" tabViewSelection="0">
+    <fieldMap></fieldMap>
+    <keys></keys>
+    <fieldsToIgnore></fieldsToIgnore>
+    <fieldsToHide></fieldsToHide>
+    <customLabels></customLabels>
+  </bll>
+  <membership enabled="true" providerName="System.Data.SqlClient" connectionString="" windowsAuthentication="false" activeDirectory="false" customSecurity="false" dedicatedLogin="false" displayRememberMe="true" rememberMeSet="true" displaySignUp="false" displayPasswordRecovery="false" displayMyAccount="true" displayHelp="true" idleUserDetectionTimeout="-1" tabViewSelection="1" validationKey="E432B5A5E8A169FB306B7D7D8219C90E6E5F7AE8A55BFBF0F882A3489F1DB50B65FD76423F3A3F389355668D2C7E3D122F1BDCF5D3D142CC8C023A6FC4344E19">
+    <adConfig></adConfig>
+    <config></config>
+  </membership>
+  <globalization uiCulture="en-US" culture="en-US" enableClientBasedCulture="false" supportedCultures="en-US,en-US; " googleTranslateApiKey="" />
+  <layout name="Classic" menuStyle="MultiLevel" />
+  <theme name="Aquarium" />
+  <publish mode="FileSystem">
+    <fileSystem external="true" />
+  </publish>
+</project>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="woItemAttachment" alias="woItemAttachment" created="2017-08-03T14:29:58" modified="2017-08-08T11:58:39" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="woItem" parentTableSchema="dbo" parentTableName="woItem" x="357" y="20">
+      <foreignKeyColumn columnName="woItemId" parentColumnName="woItemId" />
+    </foreignKey>
+    <foreignKey id="woItemwo" parentTableSchema="dbo" parentTableName="WO" baseForeignKey="woItem" x="614" y="20">
+      <foreignKeyColumn columnName="woId" parentColumnName="woId" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="woItemAttachmentId" fieldName="WoItemAttachmentID" label="wo Item Attachment Id" />
+    <column name="woItemId" fieldName="WoItemID" label="wo Item Id" aliasColumnName="details" aliasForeignKey="woItem" />
+    <column name="details" fieldName="WoitemDetails" label="Woitem Details" foreignKey="woItem" />
+    <column name="woId" fieldName="WoitemwoWoid" label="Woitemwo Woid" foreignKey="woItemwo" />
+    <column name="FileName" fieldName="FileName" label="File Name" />
+    <column name="Length" fieldName="Length" label="Length" />
+    <column name="ContentType" fieldName="ContentType" label="Content Type" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="Comment" fieldName="Comment" label="Comment" />
+    <column name="type" fieldName="Type" label="Type" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+  </columns>
+</dataModel>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="woNote" alias="woNote" created="2017-08-03T10:40:41" modified="2017-09-15T10:04:44" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="wo" parentTableSchema="dbo" parentTableName="WO" x="308" y="20">
+      <foreignKeyColumn columnName="woId" parentColumnName="woId" />
+    </foreignKey>
+    <foreignKey id="woNoteTemp" parentTableSchema="dbo" parentTableName="woNoteTemplate" x="308" y="181">
+      <foreignKeyColumn columnName="woNoteTempId" parentColumnName="woNoteTempId" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="woNoteId" fieldName="WoNoteID" label="wo Note Id" />
+    <column name="woId" fieldName="WoID" label="wo Id" aliasColumnName="status" aliasForeignKey="wo" />
+    <column name="status" fieldName="Wostatus" label="Wostatus" foreignKey="wo" />
+    <column name="woNoteTempId" fieldName="WoNoteTempID" label="wo Note Temp Id" aliasColumnName="note" aliasForeignKey="woNoteTemp" />
+    <column name="note" fieldName="WoNoteTempnote" label="wo Note Tempnote" foreignKey="woNoteTemp" />
+    <column name="noteOther" fieldName="NoteOther" label="note Other" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+    <column name="notify" fieldName="Notify" label="Notify" />
+  </columns>
+</dataModel>

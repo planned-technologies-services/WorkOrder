@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="WO" alias="WO" created="2017-08-03T09:35:15" modified="2017-08-23T13:15:51" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="unit" parentTableSchema="dbo" parentTableName="unit" x="345" y="20">
+      <foreignKeyColumn columnName="unitId" parentColumnName="unitId" />
+    </foreignKey>
+    <foreignKey id="building" parentTableSchema="dbo" parentTableName="building" x="617" y="20">
+      <foreignKeyColumn columnName="buildingId" parentColumnName="buildingId" />
+    </foreignKey>
+    <foreignKey id="resident" parentTableSchema="dbo" parentTableName="resident" x="908" y="20">
+      <foreignKeyColumn columnName="residentId" parentColumnName="residentId" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="woId" fieldName="WoID" label="wo Id" />
+    <column name="unitId" fieldName="UnitID" label="unit Id" aliasColumnName="unitNumber" aliasForeignKey="unit" />
+    <column name="unitNumber" fieldName="UnitWoUnitnumber" label="Unit Wo Unitnumber" foreignKey="unit" />
+    <column name="buildingId" fieldName="BuildingID" label="building Id" aliasColumnName="buildingNumber" aliasForeignKey="building" />
+    <column name="buildingNumber" fieldName="BuildingWoBuildingnumber" label="Building Wo Buildingnumber" foreignKey="building" />
+    <column name="buildingName" fieldName="BuildingBuildingname" label="Building Buildingname" foreignKey="building" />
+    <column name="residentId" fieldName="ResidentID" label="resident Id" aliasColumnName="residentFirstName" aliasForeignKey="resident" />
+    <column name="residentFirstName" fieldName="ResidentResidentfirstname" label="Resident Residentfirstname" foreignKey="resident" />
+    <column name="residentLastName" fieldName="ResidentResidentlastname" label="Resident Residentlastname" foreignKey="resident" />
+    <column name="status" fieldName="Status" label="Status" />
+    <column name="priority" fieldName="Priority" label="Priority" />
+    <column name="comment" fieldName="Comment" label="Comment" />
+    <column name="contactName" fieldName="ContactName" label="contact Name" />
+    <column name="contactPhone" fieldName="ContactPhone" label="contact Phone" />
+    <column name="reportedBy" fieldName="ReportedBy" label="reported By" />
+    <column name="reportedThru" fieldName="ReportedThru" label="reported Thru" />
+    <column name="completedDate" fieldName="CompletedDate" label="completed Date" format="g" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="assignedTo" fieldName="AssignedTo" label="Assigned To" />
+    <column name="CompletionSignature" fieldName="CompletionSignature" label="Completion Signature" />
+    <column fieldName="workorder" type="varchar(2147483647)" dataType="String" label="Workorder">
+      <formula>'('+WO.comment+')'</formula>
+    </column>
+    <column name="message" fieldName="Message" label="Message" />
+    <column fieldName="WoUnit" type="nvarchar(265)" dataType="String" label="Wo Unit">
+      <formula>building.buildingName+' - ('+unit.unitNumber+')-('+resident.residentLastName+', '+resident.residentFirstName+')'</formula>
+    </column>
+    <column name="problemDescription" fieldName="ProblemDescription" label="Problem Description" />
+    <column fieldName="residentFullName" type="nvarchar(102)" dataType="String" label="Resident Full Name">
+      <formula>resident.residentLastName+', '+resident.residentFirstName</formula>
+    </column>
+    <column name="contactEmail" fieldName="ContactEmail" label="Contact Email" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+    <column fieldName="assignedToOrg" type="varchar(50)" dataType="String" label="Assigned To Org">
+      <formula>WO.assignedTo</formula>
+    </column>
+    <column name="recordingurl" fieldName="Recordingurl" label="Recordingurl" />
+  </columns>
+</dataModel>

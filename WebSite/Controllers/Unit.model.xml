@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="unit" alias="unit" created="2017-08-04T13:01:45" modified="2017-08-08T11:58:46" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="building" parentTableSchema="dbo" parentTableName="building" x="291" y="20">
+      <foreignKeyColumn columnName="buildingId" parentColumnName="buildingId" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="unitId" fieldName="UnitID" label="unit Id" />
+    <column name="buildingId" fieldName="BuildingID" label="building Id" aliasColumnName="buildingNumber" aliasForeignKey="building" />
+    <column name="buildingNumber" fieldName="BuildingUnitbuildingNumber" label="buildingbuilding Number" foreignKey="building" />
+    <column name="unitNumber" fieldName="UnitNumber" label="unit Number" />
+    <column name="unitFloor" fieldName="UnitFloor" label="unit Floor" />
+    <column name="createdBy" fieldName="CreatedBy" label="created By" />
+    <column name="createdDate" fieldName="CreatedDate" label="created Date" format="g" />
+    <column name="updateDate" fieldName="UpdateDate" label="Update Date" format="g" />
+    <column name="updateBy" fieldName="UpdateBy" label="Update By" />
+  </columns>
+</dataModel>
